@@ -8,7 +8,6 @@ const clientId = process.env.REACT_APP_CLIENT_ID;
 class App extends React.Component {
   constructor(props) {
     super(props);
-
     const existingToken = sessionStorage.getItem("token");
     const accessToken =
       window.location.search.split("=")[0] === "?access_token"
@@ -26,59 +25,61 @@ class App extends React.Component {
 
       sessionStorage.setItem("token", accessToken);
       this.state = {
-        token: accessToken,
-        issues: [],
-        filteredIssues: []
+        token: accessToken
       };
     }
 
     if (existingToken) {
       this.state = {
-        token: existingToken,
-        issues: [],
-        filteredIssues: []
+        token: existingToken
       };
     }
   }
 
-  fetchIssues = async repoName => {
-    try {
-      const response = await fetch(
-        `https://api.github.com/repos/facebook/${repoName}/issues`
-      );
-      const data = await response.json();
-      // console.log("DATA", data);
-      this.setState({ issues: data, filteredIssues: data });
-    } catch (error) {
-      this.setState({ error });
-    }
-  };
+  // fetchIssues = async repoName => {
+  //   try {
+  //     const response = await fetch(
+  //       `https://api.github.com/repos/facebook/${repoName}/issues`
+  //     );
+  //     const data = await response.json();
+  //     // console.log("DATA", data);
+  //     this.setState({ issues: data, filteredIssues: data });
+  //   } catch (error) {
+  //     this.setState({ error });
+  //   }
+  // };
 
-  componentDidMount() {
-    document.addEventListener("DOMContentLoaded", function() {
-      var elems = document.querySelectorAll(".modal");
-      var instances = M.Modal.init(elems);
-    });
-    this.fetchIssues("react");
-  }
+  // componentDidMount() {
+  //   document.addEventListener("DOMContentLoaded", function() {
+  //     var elems = document.querySelectorAll(".modal");
+  //     var instances = M.Modal.init(elems);
+  //   });
+  //   this.fetchIssues("react");
+  // }
 
-  searchRepo = () => {
-    let repoName = document.getElementById("searchRepo").value;
-    // console.log("REPOOOOOO", repo);
-    this.fetchIssues(repoName);
-  };
+  // searchRepo = () => {
+  //   let repoName = document.getElementById("searchRepo").value;
+  //   // console.log("REPOOOOOO", repo);
+  //   this.fetchIssues(repoName);
+  // };
 
-  searchIssues = term => {
-    let filteredIssues = this.state.issues.filter(issue =>
-      issue.title.toLowerCase().includes(term.toLowerCase())
-    );
-    this.setState({ filteredIssues });
-  };
+  // searchIssues = term => {
+  //   let filteredIssues = this.state.issues.filter(issue =>
+  //     issue.title.toLowerCase().includes(term.toLowerCase())
+  //   );
+  //   this.setState({ filteredIssues });
+  // };
 
   render() {
     console.log("STATE", this.state);
-    if (false) {
-      return <div />;
+    if (true) {
+      return (
+        <div>
+          <div>tessst</div>
+          <div>hello</div>
+          <div>hi</div>
+        </div>
+      );
     } else {
       return (
         <div>
@@ -100,12 +101,12 @@ class App extends React.Component {
             <div class="nav-wrapper">
               <form>
                 <div class="input-field">
-                  <input
+                  {/* <input
                     onChange={e => this.searchIssues(e.target.value)}
                     id="search"
                     type="search"
                     required
-                  />
+                  /> */}
                   <label class="label-icon" for="search">
                     <i class="material-icons">search</i>
                   </label>
@@ -114,19 +115,19 @@ class App extends React.Component {
               </form>
             </div>
           </nav>
-          <div>
+          {/* <div>
             <input id="searchRepo" placeholder="Search Repository" />
             <button onClick={() => this.searchRepo()}>Search</button>
-          </div>
+          </div> */}
 
           <div class="row container">
             {this.state.filteredIssues.message ? (
               <div class="row">
                 <div class="col s12 m5">
                   <div class="card-panel teal">
-                    <span class="white-text">
+                    {/* <span class="white-text">
                       {this.state.filteredIssues.message}
-                    </span>
+                    </span> */}
                   </div>
                 </div>
               </div>
