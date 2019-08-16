@@ -1,10 +1,9 @@
 import React from "react";
 import M from "materialize-css/dist/js/materialize.min.js";
 import "./App.css";
-import moment from "moment";
 
-const ReactMarkdown = require("react-markdown");
-// import users from "./components/users";
+import User from "./components/Profile";
+import IssueCards from "./components/IssueCards";
 
 const clientId = process.env.REACT_APP_CLIENT_ID;
 class App extends React.Component {
@@ -145,10 +144,11 @@ class App extends React.Component {
     } else {
       return (
         <div>
+          {/* MODAL =============================================================================================     */}
           <div id="modal1" class="modal">
             <div class="modal-content">
               <h4>Modal Header</h4>
-              <p>A bunch of text</p>
+              <User username={this.state.user} />
             </div>
             <div class="modal-footer">
               <a
@@ -159,6 +159,7 @@ class App extends React.Component {
               </a>
             </div>
           </div>
+          {/* NAVBAR ========================================================================================== */}
           <nav className="cyan darken-4 ">
             <div class=" cyan darken-4 nav-wraper container">
               <a href="#" class="left brand-logo hide-on-small-only">
@@ -189,6 +190,7 @@ class App extends React.Component {
               </div>
             </div>
           </nav>
+          {/* HEADER ========================================================================================== */}
           <div class="card cyan lighten-5">
             <div className="card-content container">
               <h4 className="blue-grey-text text-darken-2">
@@ -234,56 +236,7 @@ class App extends React.Component {
               </div>
             ) : (
               this.state.filteredIssues.map(issue => {
-                return (
-                  <div class="col s12 m12 ">
-                    <div class="card">
-                      <div class="card-content">
-                        <div className="title-container">
-                          <i
-                            class={`material-icons ${
-                              issue.state === "open" ? "green-text" : "red-text"
-                            }`}
-                          >
-                            error_outline
-                          </i>
-                          <p class="card-title">
-                            <strong> {issue.title}</strong>
-                          </p>
-                        </div>
-                        {issue.labels.map(label => {
-                          return (
-                            <a href="#">
-                              <span
-                                className="badge"
-                                data-badge-caption={label.name}
-                                style={{
-                                  backgroundColor: `#${label.color}`,
-                                  color: "black",
-                                  fontWeight: "bold"
-                                }}
-                              />
-                            </a>
-                          );
-                        })}
-                        <ReactMarkdown source={issue.body} />
-                        <small>
-                          #{issue.number} opened{" "}
-                          {moment(issue.created_at).fromNow()} by{" "}
-                          <a class="modal-trigger" href="#modal1">
-                            {issue.user.login}
-                          </a>
-                        </small>
-                      </div>
-                      <div class="card-action">
-                        <a href={issue.comments_url}>
-                          <i className="material-icons">comment</i>
-                          {issue.comments}
-                        </a>
-                        <a href="">This is a link</a>
-                      </div>
-                    </div>
-                  </div>
-                );
+                return <IssueCards issue={issue} />;
               })
             )}
           </div>
