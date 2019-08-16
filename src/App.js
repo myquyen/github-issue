@@ -2,6 +2,8 @@ import React from "react";
 import M from "materialize-css/dist/js/materialize.min.js";
 import "./App.css";
 import moment from "moment";
+
+const ReactMarkdown = require("react-markdown");
 // import users from "./components/users";
 
 const clientId = process.env.REACT_APP_CLIENT_ID;
@@ -76,6 +78,8 @@ class App extends React.Component {
     document.addEventListener("DOMContentLoaded", function() {
       var elems = document.querySelectorAll(".modal");
       var instances = M.Modal.init(elems);
+      var elems1 = document.querySelectorAll(".collapsible");
+      var instances1 = M.Collapsible.init(elems1);
     });
     this.fetchIssues(1);
   }
@@ -208,6 +212,16 @@ class App extends React.Component {
             </div>
           </div>
           <div class="row container">
+            <ul class="collapsible">
+              <li>
+                <div class="collapsible-header">
+                  <i class="material-icons">filter_drama</i>First
+                </div>
+                <div class="collapsible-body">
+                  <span>Lorem ipsum dolor sit amet.</span>
+                </div>
+              </li>
+            </ul>
             {this.state.error ? (
               <div class="row">
                 <div class="col s12 m12">
@@ -251,6 +265,7 @@ class App extends React.Component {
                             </a>
                           );
                         })}
+                        <ReactMarkdown source={issue.body} />
                         <small>
                           #{issue.number} opened{" "}
                           {moment(issue.created_at).fromNow()} by{" "}
