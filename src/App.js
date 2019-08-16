@@ -28,7 +28,9 @@ class App extends React.Component {
       this.state = {
         token: accessToken,
         issues: [],
-        filteredIssues: []
+        filteredIssues: [],
+        page: 1,
+        searchRepo: "facebook/react"
       };
     }
 
@@ -36,19 +38,22 @@ class App extends React.Component {
       this.state = {
         token: existingToken,
         issues: [],
-        filteredIssues: []
+        filteredIssues: [],
+        page: 1,
+        searchRepo: "facebook/react"
       };
     }
   }
 
-  fetchIssues = async repo => {
+  fetchIssues = async page => {
     try {
+      let repo = this.state.searchRepo;
       const response = await fetch(
-        `https://api.github.com/repos/${repo}/issues?page=1&per_page=20`
+        `https://api.github.com/repos/${repo}/issues?page=${page}`
       );
       const data = await response.json();
       // console.log("DATA", data);
-      this.setState({ issues: data, filteredIssues: data });
+      this.setState({ issues: data, filteredIssues: data, page });
     } catch (error) {
       this.setState({ error });
     }
@@ -59,7 +64,7 @@ class App extends React.Component {
       var elems = document.querySelectorAll(".modal");
       var instances = M.Modal.init(elems);
     });
-    this.fetchIssues("facebook/react");
+    this.fetchIssues(1);
   }
 
   searchRepo = () => {
@@ -74,6 +79,30 @@ class App extends React.Component {
     );
     this.setState({ filteredIssues });
   };
+
+  renderPagination() {
+    let pages = [];
+    let current = this.state.page;
+    for (let i = 1; i <= 20; i++) {
+      pages.push(i);
+    }
+
+    return pages.map(page => {
+      if (page <= current + 3 && page >= current - 3) {
+        return (
+          <li
+            className={page === current ? "active" : null}
+            onClick={() => {
+              this.fetchIssues(page);
+              console.log("Page", page);
+            }}
+          >
+            <a href="#!">{page}</a>
+          </li>
+        );
+      }
+    });
+  }
 
   render() {
     console.log("STATE", this.state);
@@ -97,8 +126,8 @@ class App extends React.Component {
             </div>
           </div>
           <nav>
-            <div class="nav-wrapper">
-              <form>
+            <div class="nav-wrapper cyan">
+              {/* <form>
                 <div class="input-field">
                   <input
                     onChange={e => this.searchIssues(e.target.value)}
@@ -111,7 +140,28 @@ class App extends React.Component {
                   </label>
                   <i class="material-icons">close</i>
                 </div>
-              </form>
+              </form> */}
+              <a href="#" class="brand-logo">
+                Github
+              </a>
+              <div class="row right col s6">
+                <div class="input-field ">
+                  <i class="material-icons prefix">search</i>
+                  <input
+                    id="icon_prefix"
+                    type="text"
+                    class="validate"
+                    onChange={e =>
+                      this.setState({ searchRepo: e.target.value })
+                    }
+                    onSubmit={() => this.searchRepo()}
+                  />
+                  <label for="icon_prefix">
+                    User/repo e.g. 'facebook/react'
+                  </label>
+                </div>
+              </div>
+              <ul id="nav" class="right hide-on-med-and-down" />
             </div>
           </nav>
           <div>
@@ -121,7 +171,35 @@ class App extends React.Component {
             />
             <button onClick={() => this.searchRepo()}>Search</button>
           </div>
-
+          <div class="card">
+            <div class="card-content">
+              <p>
+                I am a very simple card. I am good at containing small bits of
+                information. I am convenient because I require little markup to
+                use effectively.
+              </p>
+            </div>
+            <div class="card-tabs ">
+              <ul class="tabs tabs-fixed-width ">
+                <li class="tab">
+                  <a href="#test4">Test 1</a>
+                </li>
+                <li class="tab">
+                  <a class="active" href="#test5">
+                    Test 2
+                  </a>
+                </li>
+                <li class="tab">
+                  <a href="#test6">Test 3</a>
+                </li>
+              </ul>
+            </div>
+            <div class="card-content grey lighten-4">
+              <div id="test4">Test 1</div>
+              <div id="test5">Test 2</div>
+              <div id="test6">Test 3</div>
+            </div>
+          </div>
           <div class="row container">
             {this.state.filteredIssues.message ? (
               <div class="row">
@@ -184,6 +262,19 @@ class App extends React.Component {
               })
             )}
           </div>
+          <ul class="pagination container center-align">
+            <li class="disabled">
+              <a href="#!">
+                <i class="material-icons">chevron_left</i>
+              </a>
+            </li>
+            {this.renderPagination()}
+            <li class="waves-effect">
+              <a href="#!">
+                <i class="material-icons">chevron_right</i>
+              </a>
+            </li>
+          </ul>
         </div>
       );
     }
