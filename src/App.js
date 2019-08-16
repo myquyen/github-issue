@@ -117,6 +117,23 @@ class App extends React.Component {
     });
   }
 
+  // renderComments = async () => {
+  //   // const response = await fetch(url);
+  //   // const data = await response.json();
+  //   return [1, 2].map(comment => {
+  //     return (
+  //       <li>
+  //         <div class="collapsible-header">
+  //           <i class="material-icons">filter_drama</i>First
+  //         </div>
+  //         <div class="collapsible-body">
+  //           <span>Lorem ipsum dolor sit amet.</span>
+  //         </div>
+  //       </li>
+  //     );
+  //   });
+  // };
+
   render() {
     console.log("STATE", this.state);
     if (false) {
@@ -243,8 +260,11 @@ class App extends React.Component {
                         </small>
                       </div>
                       <div class="card-action">
-                        <a href="#">This is a link</a>
-                        <a href="#">This is a link</a>
+                        <a href={issue.comments_url}>
+                          <i className="material-icons">comment</i>
+                          {issue.comments}
+                        </a>
+                        <a href="">This is a link</a>
                       </div>
                     </div>
                   </div>

@@ -30,7 +30,7 @@ The following **required** functionalities are completed (this is a sample):
 - [x] Owner of the Issue
 - [ ] Owner Avatar
 - [x] How long ago the issue was created in a human-friendly format (e.g. 2 days ago)
-- [ ] Body of the Issue
+- [x] Body of the Issue
 - [x] Label - note the color as returned by the API.
 - [x] State of Issue (Open/Closed).
 - [x] The user should be able to see multiple pages of results, by clicking a pagination control.
@@ -40,7 +40,7 @@ The following **required** functionalities are completed (this is a sample):
 
 The following **optional** features are implemented:
 
-- [ ] The user can see more details (including comments!) in a modal that's opened by clicking on the title of the issue.
+- [x] The user can see more details (including comments!) in a modal that's opened by clicking on the title of the issue.
 - [ ] The user, upon opening this modal, can add a comment via a textarea at the bottom of the page.
 - [ ] The user, upon opening the modal, can close the issue. If the person does not have the appropriate access to close an issue, the user sees a nicely formatted error message.
 - [ ] The user can see reactions attached to each comment (Reactions API).
