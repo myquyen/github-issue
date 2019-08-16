@@ -30,7 +30,8 @@ class App extends React.Component {
         issues: [],
         filteredIssues: [],
         page: 1,
-        searchRepo: "facebook/react"
+        searchRepo: "facebook/react",
+        error: null
       };
     }
 
@@ -40,7 +41,8 @@ class App extends React.Component {
         issues: [],
         filteredIssues: [],
         page: 1,
-        searchRepo: "facebook/react"
+        searchRepo: "facebook/react",
+        error: null
       };
     }
   }
@@ -57,12 +59,13 @@ class App extends React.Component {
         `https://api.github.com/search/issues?q=repo:${repo}+type:issues+state:${state}&page=${page}`
       );
       const data = await response.json();
-      // console.log("DATA", data);
+      console.log("DATA", data);
       this.setState({
         issues: data.items,
         filteredIssues: data.items,
         page,
-        total_count: Math.ceil(data.total_count / 30)
+        total_count: Math.ceil(data.total_count / 30),
+        error: data.errors
       });
     } catch (error) {
       this.setState({ error });
@@ -188,12 +191,12 @@ class App extends React.Component {
             </div>
           </div>
           <div class="row container">
-            {this.state.filteredIssues.message ? (
+            {this.state.error ? (
               <div class="row">
-                <div class="col s12 m5">
+                <div class="col s12 m12">
                   <div class="card-panel teal">
                     <span class="white-text">
-                      {this.state.filteredIssues.message}
+                      {this.state.error[0].message}
                     </span>
                   </div>
                 </div>
