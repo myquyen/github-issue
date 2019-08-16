@@ -48,12 +48,22 @@ class App extends React.Component {
   fetchIssues = async page => {
     try {
       let repo = this.state.searchRepo;
+      let state = "open";
+      // const response = await fetch(
+      //   `https://api.github.com/repos/${repo}/issues?page=${page}`
+      // );
+
       const response = await fetch(
-        `https://api.github.com/repos/${repo}/issues?page=${page}`
+        `https://api.github.com/search/issues?q=repo:${repo}+type:issues+state:${state}&page=${page}`
       );
       const data = await response.json();
       // console.log("DATA", data);
-      this.setState({ issues: data, filteredIssues: data, page });
+      this.setState({
+        issues: data.items,
+        filteredIssues: data.items,
+        page,
+        total_count: Math.ceil(data.total_count / 30)
+      });
     } catch (error) {
       this.setState({ error });
     }
@@ -83,7 +93,8 @@ class App extends React.Component {
   renderPagination() {
     let pages = [];
     let current = this.state.page;
-    for (let i = 1; i <= 20; i++) {
+    let count = this.state.total_count;
+    for (let i = 1; i <= count; i++) {
       pages.push(i);
     }
 
@@ -94,7 +105,6 @@ class App extends React.Component {
             className={page === current ? "active" : null}
             onClick={() => {
               this.fetchIssues(page);
-              console.log("Page", page);
             }}
           >
             <a href="#!">{page}</a>
@@ -125,79 +135,56 @@ class App extends React.Component {
               </a>
             </div>
           </div>
-          <nav>
-            <div class="nav-wrapper cyan">
-              {/* <form>
-                <div class="input-field">
-                  <input
-                    onChange={e => this.searchIssues(e.target.value)}
-                    id="search"
-                    type="search"
-                    required
-                  />
-                  <label class="label-icon" for="search">
-                    <i class="material-icons">search</i>
-                  </label>
-                  <i class="material-icons">close</i>
-                </div>
-              </form> */}
-              <a href="#" class="brand-logo">
-                Github
+          <nav className="cyan darken-4 ">
+            <div class=" cyan darken-4 nav-wraper container">
+              <a href="#" class="left brand-logo hide-on-small-only">
+                GEThub
               </a>
-              <div class="row right col s6">
-                <div class="input-field ">
-                  <i class="material-icons prefix">search</i>
-                  <input
-                    id="icon_prefix"
-                    type="text"
-                    class="validate"
-                    onChange={e =>
-                      this.setState({ searchRepo: e.target.value })
-                    }
-                    onSubmit={() => this.searchRepo()}
-                  />
-                  <label for="icon_prefix">
+              <div>
+                <div class="row right col s6">
+                  <div class="input-field ">
+                    <i class="material-icons prefix">search</i>
+                    <input
+                      id="icon_prefix"
+                      type="text"
+                      class="validate"
+                      placeholder="User/repo e.g. 'facebook/react'"
+                      onChange={e =>
+                        this.setState({ searchRepo: e.target.value })
+                      }
+                      onSubmit={() => this.searchRepo()}
+                    />
+                    {/* <label for="icon_prefix">
                     User/repo e.g. 'facebook/react'
-                  </label>
+                  </label> */}
+                    <a class="btn" onClick={() => this.searchRepo()}>
+                      Search
+                    </a>
+                  </div>
                 </div>
               </div>
-              <ul id="nav" class="right hide-on-med-and-down" />
             </div>
           </nav>
-          <div>
-            <input
-              placeholder="User/repo e.g. 'facebook/react'"
-              onChange={e => this.setState({ searchRepo: e.target.value })}
-            />
-            <button onClick={() => this.searchRepo()}>Search</button>
-          </div>
-          <div class="card">
-            <div class="card-content">
-              <p>
-                I am a very simple card. I am good at containing small bits of
-                information. I am convenient because I require little markup to
-                use effectively.
-              </p>
+          <div class="card cyan lighten-5">
+            <div className="card-content container">
+              <h4 className="blue-grey-text text-darken-2">
+                {this.state.searchRepo}
+              </h4>
             </div>
-            <div class="card-tabs ">
-              <ul class="tabs tabs-fixed-width ">
-                <li class="tab">
+            <div className="card-tabs container">
+              <ul className="tabs tabs-fixed-width cyan lighten-4 ">
+                <li className="tab">
                   <a href="#test4">Test 1</a>
                 </li>
-                <li class="tab">
-                  <a class="active" href="#test5">
+                <li className="tab">
+                  <a className="active" href="#test5">
                     Test 2
                   </a>
                 </li>
-                <li class="tab">
+                <li className="tab">
                   <a href="#test6">Test 3</a>
                 </li>
               </ul>
-            </div>
-            <div class="card-content grey lighten-4">
-              <div id="test4">Test 1</div>
-              <div id="test5">Test 2</div>
-              <div id="test6">Test 3</div>
             </div>
           </div>
           <div class="row container">
@@ -263,15 +250,47 @@ class App extends React.Component {
             )}
           </div>
           <ul class="pagination container center-align">
-            <li class="disabled">
+            <li
+              class="waves-effect"
+              onClick={() => {
+                this.fetchIssues(1);
+              }}
+            >
               <a href="#!">
+                <i class="material-icons">first_page</i>
+              </a>
+            </li>
+            <li className="waves-effect">
+              <a
+                href="#!"
+                onClick={() => {
+                  if (this.state.page > 1)
+                    this.fetchIssues(this.state.page - 1);
+                }}
+              >
                 <i class="material-icons">chevron_left</i>
               </a>
             </li>
             {this.renderPagination()}
-            <li class="waves-effect">
-              <a href="#!">
+            <li className="waves-effect">
+              <a
+                href="#!"
+                onClick={() => {
+                  if (this.state.page < this.state.total_count)
+                    this.fetchIssues(this.state.page + 1);
+                }}
+              >
                 <i class="material-icons">chevron_right</i>
+              </a>
+            </li>
+            <li
+              class="waves-effect"
+              onClick={() => {
+                this.fetchIssues(this.state.total_count);
+              }}
+            >
+              <a href="#!">
+                <i class="material-icons">last_page</i>
               </a>
             </li>
           </ul>
