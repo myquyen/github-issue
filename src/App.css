@@ -31,3 +31,19 @@
     transform: rotate(360deg);
   }
 }
+
+.title-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.title-container i {
+  margin-right: 1rem;
+}
+
+.title-container p {
+  font-size: 1.2rem !important;
+}

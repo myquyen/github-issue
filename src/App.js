@@ -41,10 +41,10 @@ class App extends React.Component {
     }
   }
 
-  fetchIssues = async repoName => {
+  fetchIssues = async repo => {
     try {
       const response = await fetch(
-        `https://api.github.com/repos/facebook/${repoName}/issues`
+        `https://api.github.com/repos/${repo}/issues?page=1&per_page=20`
       );
       const data = await response.json();
       // console.log("DATA", data);
@@ -59,11 +59,11 @@ class App extends React.Component {
       var elems = document.querySelectorAll(".modal");
       var instances = M.Modal.init(elems);
     });
-    this.fetchIssues("react");
+    this.fetchIssues("facebook/react");
   }
 
   searchRepo = () => {
-    let repoName = document.getElementById("searchRepo").value;
+    let repoName = this.state.searchRepo;
     // console.log("REPOOOOOO", repo);
     this.fetchIssues(repoName);
   };
@@ -115,7 +115,10 @@ class App extends React.Component {
             </div>
           </nav>
           <div>
-            <input id="searchRepo" placeholder="Search Repository" />
+            <input
+              placeholder="User/repo e.g. 'facebook/react'"
+              onChange={e => this.setState({ searchRepo: e.target.value })}
+            />
             <button onClick={() => this.searchRepo()}>Search</button>
           </div>
 
@@ -136,31 +139,40 @@ class App extends React.Component {
                   <div class="col s12 m12 ">
                     <div class="card">
                       <div class="card-content">
-                        <span class="card-title">
-                          <strong> {issue.title}</strong>
-                          {issue.labels.map(label => {
-                            return (
-                              <a href="#">
-                                <span
-                                  className="badge"
-                                  data-badge-caption={label.name}
-                                  style={{
-                                    backgroundColor: `#${label.color}`,
-                                    color: "black",
-                                    fontWeight: "bold"
-                                  }}
-                                />
-                              </a>
-                            );
-                          })}
-                        </span>
-                        <p>
+                        <div className="title-container">
+                          <i
+                            class={`material-icons ${
+                              issue.state === "open" ? "green-text" : "red-text"
+                            }`}
+                          >
+                            error_outline
+                          </i>
+                          <p class="card-title">
+                            <strong> {issue.title}</strong>
+                          </p>
+                        </div>
+                        {issue.labels.map(label => {
+                          return (
+                            <a href="#">
+                              <span
+                                className="badge"
+                                data-badge-caption={label.name}
+                                style={{
+                                  backgroundColor: `#${label.color}`,
+                                  color: "black",
+                                  fontWeight: "bold"
+                                }}
+                              />
+                            </a>
+                          );
+                        })}
+                        <small>
                           #{issue.number} opened{" "}
                           {moment(issue.created_at).fromNow()} by{" "}
                           <a class="modal-trigger" href="#modal1">
                             {issue.user.login}
                           </a>
-                        </p>
+                        </small>
                       </div>
                       <div class="card-action">
                         <a href="#">This is a link</a>
