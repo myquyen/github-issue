@@ -26,12 +26,19 @@
 .card.cyan.lighten-5 {
   margin-top: 0;
 }
+
 .title-container {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.8rem;
+}
+
+.title-container-left {
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
-  flex-wrap: wrap;
+  max-width: 80%;
 }
 
 .title-container i {
@@ -42,8 +49,14 @@
   font-size: 1.2rem !important;
 }
 
+.title-container-right {
+  display: flex;
+  align-items: center;
+}
+
 .popover.popover--active .popover__content {
   background-color: #000000d7;
+  min-width: 25em;
 }
 
 .popover.popover--top .popover__content {
@@ -80,8 +93,35 @@
 .input-field {
   display: flex;
   align-items: center;
-  width: 25rem;
+  width: 28rem;
 }
 .input-field.btn {
-  margin: 5rem !important;
+  background-color: white;
+}
+
+.flow-text {
+  font-size: 1rem;
+}
+
+.collapsible {
+  margin: 1.6rem 0 1rem 0;
+  box-shadow: none;
+}
+
+.collapsible-header-left {
+  display: flex;
+}
+
+.collapsible-header {
+  justify-content: space-between;
+}
+
+.card .card-content .card-title {
+  display: flex;
+  margin-bottom: 0;
+}
+
+.search-btn {
+  background-color:white;
+  color:#006064;
 }
