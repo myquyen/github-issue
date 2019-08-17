@@ -2,9 +2,6 @@ import React from "react";
 import M from "materialize-css/dist/js/materialize.min.js";
 import "./App.css";
 
-// import "@terebentina/react-popover/lib/styles.css";
-
-import User from "./components/Profile";
 import IssueCards from "./components/IssueCards";
 // import collapBody from "./components/collapBody";
 
@@ -36,7 +33,6 @@ export default class App extends React.Component {
         filteredIssues: [],
         page: 1,
         searchRepo: "myquyen/tic-tac-toe",
-
         error: null
       };
     }
@@ -74,12 +70,12 @@ export default class App extends React.Component {
         `https://api.github.com/search/issues?q=repo:${repo}+type:issues+state:${state}&page=${page}`
       );
       const data = await response.json();
-      console.log("DATA", data);
+      // console.log("DATA", data);
       this.setState({
         issues: data.items,
         filteredIssues: data.items,
         page,
-        total_count: Math.ceil(data.total_count / 30),
+        total_count: Math.ceil(Math.min(data.total_count, 1000) / 30),
         error: data.errors
       });
     } catch (error) {
@@ -95,12 +91,20 @@ export default class App extends React.Component {
 
   createIssue = async (title, body, assignees, milestone, labels) => {
     const url = `https://api.github.com/repos/${this.state.searchRepo}/issues`;
+    // const input = {
+    //   title,
+    //   body,
+    //   assignees: ["myquyen"],
+    //   // milestone
+    //   labels: labels.split(", ")
+    // };
+
     const input = {
-      title,
-      body,
-      assignees: assignees.split(", "),
-      milestone,
-      labels: labels.split(", ")
+      title: "Quyen a bug",
+      body: "I'm having a problem with this.",
+      assignees: ["octocat"],
+      milestone: 1,
+      labels: ["bug"]
     };
 
     const response = await fetch(url, {
@@ -145,10 +149,14 @@ export default class App extends React.Component {
   }
 
   renderComments = async url => {
-    const response = await fetch(url);
-    const data = await response.json();
-    console.log("PLayed");
-    this.setState({ comments: data });
+    try {
+      const response = await fetch(url);
+      const data = await response.json();
+      console.log("PLayed", data);
+      this.setState({ comments: data });
+    } catch (error) {
+      alert("Got error: ", error);
+    }
   };
 
   render() {
@@ -225,7 +233,7 @@ export default class App extends React.Component {
           <div id="comments" class="modal bottom-sheet modal-fixed-footer">
             <div class="modal-content">
               <h4>Comments</h4>
-              {typeof this.state.comments == "number" &&
+              {this.state.comments &&
                 this.state.comments.map(comment => {
                   return (
                     <div class="row">
@@ -288,9 +296,9 @@ export default class App extends React.Component {
               <a
                 class="waves-effect waves-light btn modal-trigger"
                 href="#modal1"
-                onClick={() =>
-                  this.createIssue("Me testing", "Hello", "", 1, "")
-                }
+                // onClick={() =>
+                //   this.createIssue("Me testing", "Hello", "", 1, "")
+                // }
               >
                 Modal
               </a>
