@@ -29,6 +29,15 @@ export default function(props) {
             </i>
             <p class="card-title">
               <strong> {issue.title}</strong>
+              <small>
+              <Popover
+                position="top"
+                className="awesome"
+                trigger={issue.user.login}
+              >
+                <User username={issue.user.login} />
+              </Popover>
+            </small>
             </p>
           </div>
           {issue.labels.map(label => {
@@ -46,25 +55,7 @@ export default function(props) {
               </a>
             );
           })}
-          <CollapsibleBody title={issue.title} source={issue.body} />
-          {/* <ReactMarkdown source={issue.body} /> */}
-          <small>
-            #{issue.number} opened {moment(issue.created_at).fromNow()} by{" "}
-            {/* <a
-              class="modal-trigger"
-              href="#modal1"
-              onClick={() => this.setState({ user: issue.user.login })}
-            >
-              {issue.user.login}
-            </a> */}
-            <Popover
-              position="top"
-              className="awesome"
-              trigger={issue.user.login}
-            >
-              <User username={issue.user.login} />
-            </Popover>
-          </small>
+          <CollapsibleBody issue={issue} source={issue.body} />
         </div>
         <div class="card-action">
           <a
@@ -89,13 +80,26 @@ class CollapsibleBody extends React.Component {
   }
 
   render() {
-    const { source, title } = this.props;
+    const { source, issue } = this.props;
     return (
       <ul class="collapsible">
         <li>
           <div class="collapsible-header">
             <i class="material-icons">description</i>
-            <span className="flow-text truncate">{title}</span>
+            <span className="flow-text truncate">
+            
+            <small>
+              #{issue.number} opened {moment(issue.created_at).fromNow()} by{" "}
+              <Popover
+                position="top"
+                className="awesome"
+                trigger={issue.user.login}
+              >
+                <User username={issue.user.login} />
+              </Popover>
+            </small>
+
+            </span>
           </div>
           <div class="collapsible-body">
             <span className="flow-text">

@@ -85,3 +85,11 @@
 .input-field.btn {
   margin: 5rem !important;
 }
+
+.flow-text {
+  font-size: 1rem;
+}
+
+.collapsible {
+  margin: 1.6rem 0 1rem 0;
+}
