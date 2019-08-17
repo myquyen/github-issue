@@ -53,6 +53,15 @@ export default class App extends React.Component {
     }
   }
 
+  componentDidMount() {
+    // var elems = document.querySelectorAll(".modal");
+    // var instances = M.Modal.init(elems);
+    // var elems1 = document.querySelectorAll(".collapsible");
+    // var instances = M.Collapsible.init(elems1);
+    M.AutoInit();
+    this.fetchIssues(1);
+  }
+
   fetchIssues = async page => {
     try {
       let repo = this.state.searchRepo;
@@ -78,21 +87,32 @@ export default class App extends React.Component {
     }
   };
 
-  componentDidMount() {
-    // var elems = document.querySelectorAll(".modal");
-    // var instances = M.Modal.init(elems);
-    // var elems1 = document.querySelectorAll(".collapsible");
-    // var instances = M.Collapsible.init(elems1);
-    M.AutoInit();
-    this.fetchIssues(1);
-  }
-
   searchRepo = () => {
     let repoName = this.state.searchRepo;
     // console.log("REPOOOOOO", repo);
     this.fetchIssues(repoName);
   };
 
+  createIssue = async (title, body, assignees, milestone, labels) => {
+    const url = `https://api.github.com/repos/${this.state.searchRepo}/issues`;
+    const input = {
+      title,
+      body,
+      assignees: assignees.split(", "),
+      milestone,
+      labels: labels.split(", ")
+    };
+
+    const response = await fetch(url, {
+      method: "POST",
+      body: JSON.stringify(input),
+      headers: new Headers({
+        "Content-Type": "application/vnd.github.symmetra-preview+json",
+        Authorization: `Token ${this.state.token}`
+      })
+    });
+    console.log("RESPONSE", response);
+  };
   // searchIssues = term => {
   //   let filteredIssues = this.state.issues.filter(issue =>
   //     issue.title.toLowerCase().includes(term.toLowerCase())
@@ -132,7 +152,7 @@ export default class App extends React.Component {
   };
 
   render() {
-    // console.log("STATE", this.state);
+    console.log("STATE", this.state);
     if (false) {
       return (
         <div>
@@ -145,10 +165,53 @@ export default class App extends React.Component {
       return (
         <div>
           {/* MODAL =============================================================================================     */}
-          <div id="modal1" class="modal">
+          <div id="modal1" class="modal modal-fixed-footer">
             <div class="modal-content">
-              <h4>Modal Header</h4>
-              <User username={this.state.user} />
+              <h5>Create New Issue</h5>
+              <p>
+                <div class="row">
+                  <form class="col s12">
+                    <div class="row">
+                      <div class="input-field col s12">
+                        <input
+                          id="title"
+                          type="text"
+                          class="validate"
+                          required
+                        />
+                        <label for="title">Title *</label>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="input-field col s12">
+                        <input
+                          id="body"
+                          type="text"
+                          class="validate"
+                          required
+                        />
+                        <label for="body">Description *</label>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="input-field col s12">
+                        <input id="assignee" type="text" class="validate" />
+                        <label for="assignee">Assignees</label>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="input-field col s6">
+                        <input id="milestone" type="text" class="validate" />
+                        <label for="milestone">Milestone</label>
+                      </div>
+                      <div class="input-field col s6">
+                        <input id="label" type="text" class="validate" />
+                        <label for="label">Labels</label>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </p>
             </div>
             <div class="modal-footer">
               <a
@@ -162,7 +225,7 @@ export default class App extends React.Component {
           <div id="comments" class="modal bottom-sheet modal-fixed-footer">
             <div class="modal-content">
               <h4>Comments</h4>
-              {this.state.comments &&
+              {typeof this.state.comments == "number" &&
                 this.state.comments.map(comment => {
                   return (
                     <div class="row">
@@ -225,6 +288,15 @@ export default class App extends React.Component {
               >
                 {this.state.searchRepo}
               </h5>
+              <a
+                class="waves-effect waves-light btn modal-trigger"
+                href="#modal1"
+                onClick={() =>
+                  this.createIssue("Me testing", "Hello", "", 1, "")
+                }
+              >
+                Modal
+              </a>
             </div>
             {/* <div className="card-tabs container">
               <ul className="tabs tabs-fixed-width cyan lighten-4 ">

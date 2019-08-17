@@ -37,7 +37,7 @@ export default class App extends Component {
       .catch(error => console.log("Oops! . There Is A Problem"));
   }
   componentDidMount() {
-    this.fetchProfile(this.props.username);
+    // this.fetchProfile(this.props.username);
   }
   render() {
     return (

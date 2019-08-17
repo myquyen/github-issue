@@ -14,6 +14,27 @@ export default function(props) {
     var elems = document.querySelectorAll(".collapsible");
     var instances = M.Collapsible.init(elems);
   };
+  const API = "https://api.github.com/users";
+
+  const fetchProfile = username => {
+    let url = `${API}/${username}`;
+    fetch(url)
+      .then(res => res.json())
+      .then(data => {
+        this.setState({
+          username: data.login,
+          name: data.name,
+          avatar: data.avatar_url,
+          location: data.location,
+          repos: data.public_repos,
+          followers: data.followers,
+          following: data.following,
+          homeUrl: data.html_url,
+          notFound: data.message
+        });
+      })
+      .catch(error => console.log("Oops! . There Is A Problem"));
+  };
 
   return (
     <div class="col s12 m12 ">
@@ -50,19 +71,12 @@ export default function(props) {
           {/* <ReactMarkdown source={issue.body} /> */}
           <small>
             #{issue.number} opened {moment(issue.created_at).fromNow()} by{" "}
-            {/* <a
-              class="modal-trigger"
-              href="#modal1"
-              onClick={() => this.setState({ user: issue.user.login })}
-            >
-              {issue.user.login}
-            </a> */}
             <Popover
               position="top"
               className="awesome"
               trigger={issue.user.login}
             >
-              <User username={issue.user.login} />
+              <User onClick={() => this.fetchProfile(issue.user.login)} />
             </Popover>
           </small>
         </div>
