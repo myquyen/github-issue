@@ -6,13 +6,13 @@ import "./App.css";
 
 import User from "./components/Profile";
 import IssueCards from "./components/IssueCards";
+// import collapBody from "./components/collapBody";
 
 const ReactMarkdown = require("react-markdown");
 const clientId = process.env.REACT_APP_CLIENT_ID;
-class App extends React.Component {
+export default class App extends React.Component {
   constructor(props) {
     super(props);
-
     const existingToken = sessionStorage.getItem("token");
     const accessToken =
       window.location.search.split("=")[0] === "?access_token"
@@ -29,12 +29,14 @@ class App extends React.Component {
       console.log(`New accessToken: ${accessToken}`);
 
       sessionStorage.setItem("token", accessToken);
+
       this.state = {
         token: accessToken,
         issues: [],
         filteredIssues: [],
         page: 1,
         searchRepo: "facebook/react",
+
         error: null
       };
     }
@@ -77,12 +79,11 @@ class App extends React.Component {
   };
 
   componentDidMount() {
-    document.addEventListener("DOMContentLoaded", function() {
-      var elems = document.querySelectorAll(".modal");
-      var instances = M.Modal.init(elems);
-      var elems1 = document.querySelectorAll(".collapsible");
-      var instances1 = M.Collapsible.init(elems1);
-    });
+    // var elems = document.querySelectorAll(".modal");
+    // var instances = M.Modal.init(elems);
+    // var elems1 = document.querySelectorAll(".collapsible");
+    // var instances = M.Collapsible.init(elems1);
+    M.AutoInit();
     this.fetchIssues(1);
   }
 
@@ -92,12 +93,12 @@ class App extends React.Component {
     this.fetchIssues(repoName);
   };
 
-  searchIssues = term => {
-    let filteredIssues = this.state.issues.filter(issue =>
-      issue.title.toLowerCase().includes(term.toLowerCase())
-    );
-    this.setState({ filteredIssues });
-  };
+  // searchIssues = term => {
+  //   let filteredIssues = this.state.issues.filter(issue =>
+  //     issue.title.toLowerCase().includes(term.toLowerCase())
+  //   );
+  //   this.setState({ filteredIssues });
+  // };
 
   renderPagination() {
     let pages = [];
@@ -131,9 +132,15 @@ class App extends React.Component {
   };
 
   render() {
-    console.log("STATE", this.state);
+    // console.log("STATE", this.state);
     if (false) {
-      return <div />;
+      return (
+        <div>
+          <div>tessst</div>
+          <div>hello</div>
+          <div>hi</div>
+        </div>
+      );
     } else {
       return (
         <div>
@@ -209,6 +216,7 @@ class App extends React.Component {
             </div>
           </nav>
           {/* HEADER ========================================================================================== */}
+
           <div class="card cyan lighten-5">
             <div className="card-content container">
               <h5
@@ -235,17 +243,6 @@ class App extends React.Component {
             </div> */}
           </div>
           <div class="row container">
-            {/* Collapsible =============================================================================== */}
-            <ul class="collapsible">
-              <li>
-                <div class="collapsible-header">
-                  <i class="material-icons">filter_drama</i>First
-                </div>
-                <div class="collapsible-body">
-                  <span>Lorem ipsum dolor sit amet.</span>
-                </div>
-              </li>
-            </ul>
             {this.state.error ? (
               <div class="row">
                 <div class="col s12 m12">
@@ -317,5 +314,3 @@ class App extends React.Component {
     }
   }
 }
-
-export default App;

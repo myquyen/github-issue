@@ -1,4 +1,5 @@
-import React, { Component } from "react";
+import React from "react";
+import M from "materialize-css/dist/js/materialize.min.js";
 import moment from "moment";
 import Popover from "@terebentina/react-popover";
 
@@ -9,6 +10,11 @@ import User from "./Profile";
 const ReactMarkdown = require("react-markdown");
 export default function(props) {
   const issue = props.issue;
+  const componentDidMount = () => {
+    var elems = document.querySelectorAll(".collapsible");
+    var instances = M.Collapsible.init(elems);
+  };
+
   return (
     <div class="col s12 m12 ">
       <div class="card">
@@ -40,7 +46,8 @@ export default function(props) {
               </a>
             );
           })}
-          <ReactMarkdown source={issue.body} />
+          <CollapsibleBody title={issue.title} source={issue.body} />
+          {/* <ReactMarkdown source={issue.body} /> */}
           <small>
             #{issue.number} opened {moment(issue.created_at).fromNow()} by{" "}
             {/* <a
@@ -68,9 +75,35 @@ export default function(props) {
             <i className="material-icons">comment</i>
             {issue.comments}
           </a>
-          <a href="">This is a link</a>
+          <a href="#">This is a link</a>
         </div>
       </div>
     </div>
   );
+}
+
+class CollapsibleBody extends React.Component {
+  componentDidMount() {
+    var elems = document.querySelectorAll(".collapsible");
+    var instances = M.Collapsible.init(elems);
+  }
+
+  render() {
+    const { source, title } = this.props;
+    return (
+      <ul class="collapsible">
+        <li>
+          <div class="collapsible-header">
+            <i class="material-icons">description</i>
+            <span className="flow-text truncate">{title}</span>
+          </div>
+          <div class="collapsible-body">
+            <span className="flow-text">
+              <ReactMarkdown source={source} />
+            </span>
+          </div>
+        </li>
+      </ul>
+    );
+  }
 }
