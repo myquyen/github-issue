@@ -16,7 +16,7 @@ export default class App extends React.Component {
     const existingToken = sessionStorage.getItem("token");
     const accessToken =
       window.location.search.split("=")[0] === "?access_token"
-        ? window.location.search.split("=")[1]
+        ? window.location.search.split("=")[1].slice(0, -6)
         : null;
 
     if (!accessToken && !existingToken) {
@@ -35,7 +35,7 @@ export default class App extends React.Component {
         issues: [],
         filteredIssues: [],
         page: 1,
-        searchRepo: "facebook/react",
+        searchRepo: "myquyen/tic-tac-toe",
 
         error: null
       };
@@ -47,7 +47,7 @@ export default class App extends React.Component {
         issues: [],
         filteredIssues: [],
         page: 1,
-        searchRepo: "facebook/react",
+        searchRepo: "myquyen/tic-tac-toe",
         error: null
       };
     }
