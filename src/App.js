@@ -4,9 +4,10 @@ import "./App.css";
 
 import User from "./components/Profile";
 import IssueCards from "./components/IssueCards";
+// import collapBody from "./components/collapBody";
 
 const clientId = process.env.REACT_APP_CLIENT_ID;
-class App extends React.Component {
+export default class App extends React.Component {
   constructor(props) {
     super(props);
     const existingToken = sessionStorage.getItem("token");
@@ -25,64 +26,30 @@ class App extends React.Component {
       console.log(`New accessToken: ${accessToken}`);
 
       sessionStorage.setItem("token", accessToken);
+
       this.state = {
-<<<<<<< HEAD
-        token: accessToken
-=======
         token: accessToken,
         issues: [],
         filteredIssues: [],
         page: 1,
         searchRepo: "facebook/react",
+
         error: null
->>>>>>> de1c7935284ae2fc054054d6bd573c91da82b3f0
       };
     }
 
     if (existingToken) {
       this.state = {
-<<<<<<< HEAD
-        token: existingToken
-=======
         token: existingToken,
         issues: [],
         filteredIssues: [],
         page: 1,
         searchRepo: "facebook/react",
         error: null
->>>>>>> de1c7935284ae2fc054054d6bd573c91da82b3f0
       };
     }
   }
 
-<<<<<<< HEAD
-  // fetchIssues = async repoName => {
-  //   try {
-  //     const response = await fetch(
-  //       `https://api.github.com/repos/facebook/${repoName}/issues`
-  //     );
-  //     const data = await response.json();
-  //     // console.log("DATA", data);
-  //     this.setState({ issues: data, filteredIssues: data });
-  //   } catch (error) {
-  //     this.setState({ error });
-  //   }
-  // };
-
-  // componentDidMount() {
-  //   document.addEventListener("DOMContentLoaded", function() {
-  //     var elems = document.querySelectorAll(".modal");
-  //     var instances = M.Modal.init(elems);
-  //   });
-  //   this.fetchIssues("react");
-  // }
-
-  // searchRepo = () => {
-  //   let repoName = document.getElementById("searchRepo").value;
-  //   // console.log("REPOOOOOO", repo);
-  //   this.fetchIssues(repoName);
-  // };
-=======
   fetchIssues = async page => {
     try {
       let repo = this.state.searchRepo;
@@ -109,12 +76,11 @@ class App extends React.Component {
   };
 
   componentDidMount() {
-    document.addEventListener("DOMContentLoaded", function() {
-      var elems = document.querySelectorAll(".modal");
-      var instances = M.Modal.init(elems);
-      var elems1 = document.querySelectorAll(".collapsible");
-      var instances1 = M.Collapsible.init(elems1);
-    });
+    // var elems = document.querySelectorAll(".modal");
+    // var instances = M.Modal.init(elems);
+    // var elems1 = document.querySelectorAll(".collapsible");
+    // var instances = M.Collapsible.init(elems1);
+    M.AutoInit();
     this.fetchIssues(1);
   }
 
@@ -123,7 +89,6 @@ class App extends React.Component {
     // console.log("REPOOOOOO", repo);
     this.fetchIssues(repoName);
   };
->>>>>>> de1c7935284ae2fc054054d6bd573c91da82b3f0
 
   // searchIssues = term => {
   //   let filteredIssues = this.state.issues.filter(issue =>
@@ -174,8 +139,8 @@ class App extends React.Component {
   // };
 
   render() {
-    console.log("STATE", this.state);
-    if (true) {
+    // console.log("STATE", this.state);
+    if (false) {
       return (
         <div>
           <div>tessst</div>
@@ -201,22 +166,6 @@ class App extends React.Component {
               </a>
             </div>
           </div>
-<<<<<<< HEAD
-          <nav>
-            <div class="nav-wrapper">
-              <form>
-                <div class="input-field">
-                  {/* <input
-                    onChange={e => this.searchIssues(e.target.value)}
-                    id="search"
-                    type="search"
-                    required
-                  /> */}
-                  <label class="label-icon" for="search">
-                    <i class="material-icons">search</i>
-                  </label>
-                  <i class="material-icons">close</i>
-=======
           {/* NAVBAR ========================================================================================== */}
           <nav className="cyan darken-4 ">
             <div class=" cyan darken-4 nav-wraper container">
@@ -244,19 +193,12 @@ class App extends React.Component {
                       Search
                     </a>
                   </div>
->>>>>>> de1c7935284ae2fc054054d6bd573c91da82b3f0
                 </div>
               </div>
             </div>
           </nav>
-<<<<<<< HEAD
-          {/* <div>
-            <input id="searchRepo" placeholder="Search Repository" />
-            <button onClick={() => this.searchRepo()}>Search</button>
-          </div> */}
-
-=======
           {/* HEADER ========================================================================================== */}
+
           <div class="card cyan lighten-5">
             <div className="card-content container">
               <h4 className="blue-grey-text text-darken-2">
@@ -279,37 +221,24 @@ class App extends React.Component {
               </ul>
             </div>
           </div>
->>>>>>> de1c7935284ae2fc054054d6bd573c91da82b3f0
           <div class="row container">
-            <ul class="collapsible">
-              <li>
-                <div class="collapsible-header">
-                  <i class="material-icons">filter_drama</i>First
-                </div>
-                <div class="collapsible-body">
-                  <span>Lorem ipsum dolor sit amet.</span>
-                </div>
-              </li>
-            </ul>
             {this.state.error ? (
               <div class="row">
                 <div class="col s12 m12">
                   <div class="card-panel teal">
-<<<<<<< HEAD
-                    {/* <span class="white-text">
-                      {this.state.filteredIssues.message}
-                    </span> */}
-=======
                     <span class="white-text">
                       {this.state.error[0].message}
                     </span>
->>>>>>> de1c7935284ae2fc054054d6bd573c91da82b3f0
                   </div>
                 </div>
               </div>
             ) : (
               this.state.filteredIssues.map(issue => {
-                return <IssueCards issue={issue} />;
+                return (
+                  <>
+                    <IssueCards issue={issue} />
+                  </>
+                );
               })
             )}
           </div>
@@ -363,5 +292,3 @@ class App extends React.Component {
     }
   }
 }
-
-export default App;
