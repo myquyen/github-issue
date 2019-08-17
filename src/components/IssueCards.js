@@ -60,7 +60,11 @@ export default function(props) {
           </small>
         </div>
         <div class="card-action">
-          <a href={issue.comments_url}>
+          <a
+            class="modal-trigger"
+            href="#comments"
+            onClick={() => props.getComments(issue.comments_url)}
+          >
             <i className="material-icons">comment</i>
             {issue.comments}
           </a>

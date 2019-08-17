@@ -2,13 +2,12 @@ import React from "react";
 import M from "materialize-css/dist/js/materialize.min.js";
 import "./App.css";
 
-import Popover from "@terebentina/react-popover";
-
-import "@terebentina/react-popover/lib/styles.css";
+// import "@terebentina/react-popover/lib/styles.css";
 
 import User from "./components/Profile";
 import IssueCards from "./components/IssueCards";
 
+const ReactMarkdown = require("react-markdown");
 const clientId = process.env.REACT_APP_CLIENT_ID;
 class App extends React.Component {
   constructor(props) {
@@ -83,8 +82,6 @@ class App extends React.Component {
       var instances = M.Modal.init(elems);
       var elems1 = document.querySelectorAll(".collapsible");
       var instances1 = M.Collapsible.init(elems1);
-      var elems2 = document.querySelectorAll(".tooltipped");
-      var instances2 = M.Tooltip.init(elems2);
     });
     this.fetchIssues(1);
   }
@@ -126,22 +123,12 @@ class App extends React.Component {
     });
   }
 
-  // renderComments = async () => {
-  //   // const response = await fetch(url);
-  //   // const data = await response.json();
-  //   return [1, 2].map(comment => {
-  //     return (
-  //       <li>
-  //         <div class="collapsible-header">
-  //           <i class="material-icons">filter_drama</i>First
-  //         </div>
-  //         <div class="collapsible-body">
-  //           <span>Lorem ipsum dolor sit amet.</span>
-  //         </div>
-  //       </li>
-  //     );
-  //   });
-  // };
+  renderComments = async url => {
+    const response = await fetch(url);
+    const data = await response.json();
+    console.log("PLayed");
+    this.setState({ comments: data });
+  };
 
   render() {
     console.log("STATE", this.state);
@@ -162,6 +149,31 @@ class App extends React.Component {
                 class="modal-close waves-effect waves-green btn-flat"
               >
                 Agree
+              </a>
+            </div>
+          </div>
+          <div id="comments" class="modal bottom-sheet modal-fixed-footer">
+            <div class="modal-content">
+              <h4>Comments</h4>
+              {this.state.comments &&
+                this.state.comments.map(comment => {
+                  return (
+                    <div class="row">
+                      <div class="col s12 m12">
+                        <div class="card-panel">
+                          <strong className="teal-text">
+                            {comment.user.login}
+                          </strong>
+                          <ReactMarkdown source={comment.body} />
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+            </div>
+            <div class="modal-footer">
+              <a href="#!" class="modal-close btn-flat">
+                Close
               </a>
             </div>
           </div>
@@ -199,11 +211,14 @@ class App extends React.Component {
           {/* HEADER ========================================================================================== */}
           <div class="card cyan lighten-5">
             <div className="card-content container">
-              <h4 className="blue-grey-text text-darken-2">
+              <h5
+                className="blue-grey-text text-darken-3"
+                style={{ fontWeight: "bold" }}
+              >
                 {this.state.searchRepo}
-              </h4>
+              </h5>
             </div>
-            <div className="card-tabs container">
+            {/* <div className="card-tabs container">
               <ul className="tabs tabs-fixed-width cyan lighten-4 ">
                 <li className="tab">
                   <a href="#test4">Test 1</a>
@@ -217,7 +232,7 @@ class App extends React.Component {
                   <a href="#test6">Test 3</a>
                 </li>
               </ul>
-            </div>
+            </div> */}
           </div>
           <div class="row container">
             {/* Collapsible =============================================================================== */}
@@ -243,7 +258,12 @@ class App extends React.Component {
               </div>
             ) : (
               this.state.filteredIssues.map(issue => {
-                return <IssueCards issue={issue} />;
+                return (
+                  <IssueCards
+                    issue={issue}
+                    getComments={url => this.renderComments(url)}
+                  />
+                );
               })
             )}
           </div>

@@ -18,7 +18,7 @@
 }
 .github--profile h2 a {
   font-size: 1.65rem;
-  /* color: rgb(32, 83, 177); */
+  /* color: teal; */
   color: white;
   font-weight: bold;
 }
@@ -34,7 +34,7 @@ h3 {
 }
 
 .github--profile__state {
-  background: rgb(32, 83, 177);
+  background: teal;
   text-align: center;
   padding: 1rem 0.9375rem;
   border-radius: 0 0 0.3125rem 0.3125rem;
