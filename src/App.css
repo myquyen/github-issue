@@ -38,7 +38,7 @@
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
-  flex-wrap: wrap;
+  max-width: 80%;
 }
 
 .title-container i {
@@ -93,10 +93,10 @@
 .input-field {
   display: flex;
   align-items: center;
-  width: 25rem;
+  width: 28rem;
 }
 .input-field.btn {
-  margin: 5rem !important;
+  background-color: white;
 }
 
 .flow-text {
@@ -119,4 +119,9 @@
 .card .card-content .card-title {
   display: flex;
   margin-bottom: 0;
+}
+
+.search-btn {
+  background-color:white;
+  color:#006064;
 }

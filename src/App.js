@@ -204,10 +204,7 @@ export default class App extends React.Component {
                       }
                       onSubmit={() => this.searchRepo()}
                     />
-                    {/* <label for="icon_prefix">
-                    User/repo e.g. 'facebook/react'
-                  </label> */}
-                    <a class="btn" onClick={() => this.searchRepo()}>
+                    <a class="btn search-btn" onClick={() => this.searchRepo()}>
                       Search
                     </a>
                   </div>
