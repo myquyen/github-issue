@@ -1,8 +1,13 @@
 import React from "react";
 import M from "materialize-css/dist/js/materialize.min.js";
 import moment from "moment";
-const ReactMarkdown = require("react-markdown");
+import Popover from "@terebentina/react-popover";
 
+import "@terebentina/react-popover/lib/styles.css";
+
+import User from "./Profile";
+
+const ReactMarkdown = require("react-markdown");
 export default function(props) {
   const issue = props.issue;
   const componentDidMount = () => {
@@ -45,17 +50,28 @@ export default function(props) {
           {/* <ReactMarkdown source={issue.body} /> */}
           <small>
             #{issue.number} opened {moment(issue.created_at).fromNow()} by{" "}
-            <a
+            {/* <a
               class="modal-trigger"
               href="#modal1"
               onClick={() => this.setState({ user: issue.user.login })}
             >
               {issue.user.login}
-            </a>
+            </a> */}
+            <Popover
+              position="top"
+              className="awesome"
+              trigger={issue.user.login}
+            >
+              <User username={issue.user.login} />
+            </Popover>
           </small>
         </div>
         <div class="card-action">
-          <a href={issue.comments_url}>
+          <a
+            class="modal-trigger"
+            href="#comments"
+            onClick={() => props.getComments(issue.comments_url)}
+          >
             <i className="material-icons">comment</i>
             {issue.comments}
           </a>

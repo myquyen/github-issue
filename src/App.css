@@ -23,15 +23,9 @@
   color: #61dafb;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.card.cyan.lighten-5 {
+  margin-top: 0;
 }
-
 .title-container {
   display: flex;
   flex-direction: row;
@@ -46,6 +40,28 @@
 
 .title-container p {
   font-size: 1.2rem !important;
+}
+
+.popover.popover--active .popover__content {
+  background-color: #000000d7;
+}
+
+.popover.popover--top .popover__content {
+  bottom: -10rem !important;
+  left: 20% !important;
+}
+
+#comments .card-panel {
+  padding: 1rem;
+  margin: 0;
+  font-size: 14px;
+}
+#comments h4 {
+  font-size: 20px;
+  font-weight: bold;
+}
+#comments p {
+  margin-bottom: 0;
 }
 
 .pagination {

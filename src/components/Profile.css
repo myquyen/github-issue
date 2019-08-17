@@ -1,0 +1,68 @@
+.github--profile {
+  width: 100%;
+}
+
+.github--profile__info {
+  padding: 1.875rem 0.9375rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.github--profile img {
+  width: 6.25rem;
+  height: 6.25rem;
+  border-radius: 50%;
+  display: block;
+  box-shadow: 0 0 0.625rem rgba(0, 0, 0, 0.5);
+}
+.github--profile h2 a {
+  font-size: 1.65rem;
+  /* color: teal; */
+  color: white;
+  font-weight: bold;
+}
+
+h2 {
+  margin: 0;
+}
+h3 {
+  font-size: 1.1885rem;
+  color: white;
+  font-weight: bold;
+  margin: 0;
+}
+
+.github--profile__state {
+  background: teal;
+  text-align: center;
+  padding: 1rem 0.9375rem;
+  border-radius: 0 0 0.3125rem 0.3125rem;
+}
+
+.github--profile__state a {
+  color: white;
+}
+.github--profile ul {
+  direction: ltr;
+}
+.github--profile li {
+  list-style: none;
+  display: inline-block;
+  margin-right: 1rem;
+}
+.github--profile:last-child {
+  margin-right: 0;
+}
+
+i {
+  font-size: 1.5rem;
+  font-weight: 700;
+  font-style: normal;
+  display: block;
+}
+span {
+  font-size: 0.844rem;
+  letter-spacing: 0.0625rem;
+  color: lighten(primary-color, 17%);
+}

@@ -28,13 +28,13 @@ The following **required** functionalities are completed (this is a sample):
 - [x] Issue Title
 - [x] Number of the issue
 - [x] Owner of the Issue
-- [ ] Owner Avatar
+- [x] Owner Avatar
 - [x] How long ago the issue was created in a human-friendly format (e.g. 2 days ago)
 - [x] Body of the Issue
 - [x] Label - note the color as returned by the API.
 - [x] State of Issue (Open/Closed).
 - [x] The user should be able to see multiple pages of results, by clicking a pagination control.
-- [ ] The user should be able to see the body of the issue rendered in markdown.
+- [x] The user should be able to see the body of the issue rendered in markdown.
 - [ ] The user should be able to create a new issue via a modal for the repository, by clicking on a "new issue" button. Clicking on thi button will pop open a modal that asks for the requisite fields.
 - [ ] If there is an error creating the issue (for example, the user not supplying all required parameters), there should be a nice error message to the user.
 
