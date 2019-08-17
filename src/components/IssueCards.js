@@ -6,69 +6,115 @@ import Popover from "@terebentina/react-popover";
 import "@terebentina/react-popover/lib/styles.css";
 
 import User from "./Profile";
+import { async } from "q";
 
 const ReactMarkdown = require("react-markdown");
-export default function(props) {
-  const issue = props.issue;
-  const componentDidMount = () => {
-    var elems = document.querySelectorAll(".collapsible");
-    var instances = M.Collapsible.init(elems);
+
+const API = "https://api.github.com/users";
+
+export default class IssueCards extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      data: {
+        username: "theham3d",
+        name: "",
+        avatar: "",
+        location: "",
+        repos: "",
+        followers: "",
+        following: "",
+        homeUrl: "",
+        notFound: ""
+      },
+      bool: false
+    };
+  }
+  fetchProfile = username => {
+    let url = `${API}/${username}`;
+    fetch(url)
+      .then(res => res.json())
+      .then(data => {
+        this.setState({
+          bool: true,
+          data: {
+            username: data.login,
+            name: data.name,
+            avatar: data.avatar_url,
+            location: data.location,
+            repos: data.public_repos,
+            followers: data.followers,
+            following: data.following,
+            homeUrl: data.html_url,
+            notFound: data.message
+          }
+        });
+      })
+      .catch(error => console.log("Oops! . There Is A Problem"));
   };
 
-  return (
-    <div class="col s12 m12 ">
-      <div class="card">
-        <div class="card-content">
-          <div className="title-container">
-            <div className="title-container-left">
-              <i
-                class={`material-icons ${
-                  issue.state === "open" ? "green-text" : "red-text"
-                }`}
-              >
-                error_outline
-              </i>
-              <p class="card-title">
-                <strong> {issue.title}</strong>
-              </p>
+  componentDidMount = () => {};
+  render() {
+    const issue = this.props.issue;
+    return (
+      <div class="col s12 m12 ">
+        <div class="card">
+          <div class="card-content">
+            <div className="title-container">
+              <div className="title-container-left">
+                <i
+                  class={`material-icons ${
+                    issue.state === "open" ? "green-text" : "red-text"
+                  }`}
+                >
+                  error_outline
+                </i>
+                <p class="card-title">
+                  <strong> {issue.title}</strong>
+                </p>
+              </div>
+              <div className="title-container-right">
+                <span style={{ marginRight: ".4rem" }}>by</span>
+                <Popover
+                  position="top"
+                  className="awesome"
+                  trigger={
+                    <span onClick={() => this.fetchProfile(issue.user.login)}>
+                      {issue.user.login}
+                    </span>
+                  }
+                >
+                  {this.state.bool && <User data={this.state.data} />}
+                </Popover>
+              </div>
             </div>
-            <div className="title-container-right">
-              <span style={{ marginRight: ".4rem" }}>by</span>
-              <Popover
-                position="top"
-                className="awesome"
-                trigger={issue.user.login}
-              >
-                <User username={issue.user.login} />
-              </Popover>
-            </div>
+            {issue.labels.map(label => {
+              return (
+                <a href="#">
+                  <span
+                    className="badge"
+                    data-badge-caption={label.name}
+                    style={{
+                      backgroundColor: `#${label.color}`,
+                      color: "black",
+                      fontWeight: "bold"
+                    }}
+                  />
+                </a>
+              );
+            })}
           </div>
-          {issue.labels.map(label => {
-            return (
-              <a href="#">
-                <span
-                  className="badge"
-                  data-badge-caption={label.name}
-                  style={{
-                    backgroundColor: `#${label.color}`,
-                    color: "black",
-                    fontWeight: "bold"
-                  }}
-                />
-              </a>
-            );
-          })}
-        </div>
 
-        <CollapsibleBody
-          class="card-action"
-          issue={issue}
-          source={issue.body}
-          getComments={props.getComments}
-        />
+          <CollapsibleBody
+            class="card-action"
+            issue={issue}
+            source={issue.body}
+            getComments={this.props.getComments}
+          />
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
 }
 
 class CollapsibleBody extends React.Component {

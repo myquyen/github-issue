@@ -2,9 +2,6 @@ import React from "react";
 import M from "materialize-css/dist/js/materialize.min.js";
 import "./App.css";
 
-// import "@terebentina/react-popover/lib/styles.css";
-
-import User from "./components/Profile";
 import IssueCards from "./components/IssueCards";
 // import collapBody from "./components/collapBody";
 
@@ -16,7 +13,7 @@ export default class App extends React.Component {
     const existingToken = sessionStorage.getItem("token");
     const accessToken =
       window.location.search.split("=")[0] === "?access_token"
-        ? window.location.search.split("=")[1]
+        ? window.location.search.split("=")[1].slice(0, -6)
         : null;
 
     if (!accessToken && !existingToken) {
@@ -35,8 +32,7 @@ export default class App extends React.Component {
         issues: [],
         filteredIssues: [],
         page: 1,
-        searchRepo: "facebook/react",
-
+        searchRepo: "myquyen/tic-tac-toe",
         error: null
       };
     }
@@ -47,10 +43,19 @@ export default class App extends React.Component {
         issues: [],
         filteredIssues: [],
         page: 1,
-        searchRepo: "facebook/react",
+        searchRepo: "myquyen/tic-tac-toe",
         error: null
       };
     }
+  }
+
+  componentDidMount() {
+    // var elems = document.querySelectorAll(".modal");
+    // var instances = M.Modal.init(elems);
+    // var elems1 = document.querySelectorAll(".collapsible");
+    // var instances = M.Collapsible.init(elems1);
+    M.AutoInit();
+    this.fetchIssues(1);
   }
 
   fetchIssues = async page => {
@@ -65,12 +70,12 @@ export default class App extends React.Component {
         `https://api.github.com/search/issues?q=repo:${repo}+type:issues+state:${state}&page=${page}`
       );
       const data = await response.json();
-      console.log("DATA", data);
+      // console.log("DATA", data);
       this.setState({
         issues: data.items,
         filteredIssues: data.items,
         page,
-        total_count: Math.ceil(data.total_count / 30),
+        total_count: Math.ceil(Math.min(data.total_count, 1000) / 30),
         error: data.errors
       });
     } catch (error) {
@@ -78,21 +83,40 @@ export default class App extends React.Component {
     }
   };
 
-  componentDidMount() {
-    // var elems = document.querySelectorAll(".modal");
-    // var instances = M.Modal.init(elems);
-    // var elems1 = document.querySelectorAll(".collapsible");
-    // var instances = M.Collapsible.init(elems1);
-    M.AutoInit();
-    this.fetchIssues(1);
-  }
-
   searchRepo = () => {
     let repoName = this.state.searchRepo;
     // console.log("REPOOOOOO", repo);
     this.fetchIssues(repoName);
   };
 
+  createIssue = async (title, body, assignees, milestone, labels) => {
+    const url = `https://api.github.com/repos/${this.state.searchRepo}/issues`;
+    // const input = {
+    //   title,
+    //   body,
+    //   assignees: ["myquyen"],
+    //   // milestone
+    //   labels: labels.split(", ")
+    // };
+
+    const input = {
+      title: "Quyen a bug",
+      body: "I'm having a problem with this.",
+      assignees: ["octocat"],
+      milestone: 1,
+      labels: ["bug"]
+    };
+
+    const response = await fetch(url, {
+      method: "POST",
+      body: JSON.stringify(input),
+      headers: new Headers({
+        "Content-Type": "application/vnd.github.symmetra-preview+json",
+        Authorization: `Token ${this.state.token}`
+      })
+    });
+    console.log("RESPONSE", response);
+  };
   // searchIssues = term => {
   //   let filteredIssues = this.state.issues.filter(issue =>
   //     issue.title.toLowerCase().includes(term.toLowerCase())
@@ -125,14 +149,18 @@ export default class App extends React.Component {
   }
 
   renderComments = async url => {
-    const response = await fetch(url);
-    const data = await response.json();
-    console.log("PLayed");
-    this.setState({ comments: data });
+    try {
+      const response = await fetch(url);
+      const data = await response.json();
+      console.log("PLayed", data);
+      this.setState({ comments: data });
+    } catch (error) {
+      alert("Got error: ", error);
+    }
   };
 
   render() {
-    // console.log("STATE", this.state);
+    console.log("STATE", this.state);
     if (false) {
       return (
         <div>
@@ -145,10 +173,53 @@ export default class App extends React.Component {
       return (
         <div>
           {/* MODAL =============================================================================================     */}
-          <div id="modal1" class="modal">
+          <div id="modal1" class="modal modal-fixed-footer">
             <div class="modal-content">
-              <h4>Modal Header</h4>
-              <User username={this.state.user} />
+              <h5>Create New Issue</h5>
+              <p>
+                <div class="row">
+                  <form class="col s12">
+                    <div class="row">
+                      <div class="input-field col s12">
+                        <input
+                          id="title"
+                          type="text"
+                          class="validate"
+                          required
+                        />
+                        <label for="title">Title *</label>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="input-field col s12">
+                        <input
+                          id="body"
+                          type="text"
+                          class="validate"
+                          required
+                        />
+                        <label for="body">Description *</label>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="input-field col s12">
+                        <input id="assignee" type="text" class="validate" />
+                        <label for="assignee">Assignees</label>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="input-field col s6">
+                        <input id="milestone" type="text" class="validate" />
+                        <label for="milestone">Milestone</label>
+                      </div>
+                      <div class="input-field col s6">
+                        <input id="label" type="text" class="validate" />
+                        <label for="label">Labels</label>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </p>
             </div>
             <div class="modal-footer">
               <a
@@ -222,6 +293,15 @@ export default class App extends React.Component {
               >
                 {this.state.searchRepo}
               </h5>
+              <a
+                class="waves-effect waves-light btn modal-trigger"
+                href="#modal1"
+                // onClick={() =>
+                //   this.createIssue("Me testing", "Hello", "", 1, "")
+                // }
+              >
+                Modal
+              </a>
             </div>
             {/* <div className="card-tabs container">
               <ul className="tabs tabs-fixed-width cyan lighten-4 ">
