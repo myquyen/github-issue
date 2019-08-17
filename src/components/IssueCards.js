@@ -1,7 +1,12 @@
 import React, { Component } from "react";
 import moment from "moment";
-const ReactMarkdown = require("react-markdown");
+import Popover from "@terebentina/react-popover";
 
+import "@terebentina/react-popover/lib/styles.css";
+
+import User from "./Profile";
+
+const ReactMarkdown = require("react-markdown");
 export default function(props) {
   const issue = props.issue;
   return (
@@ -38,13 +43,20 @@ export default function(props) {
           <ReactMarkdown source={issue.body} />
           <small>
             #{issue.number} opened {moment(issue.created_at).fromNow()} by{" "}
-            <a
+            {/* <a
               class="modal-trigger"
               href="#modal1"
               onClick={() => this.setState({ user: issue.user.login })}
             >
               {issue.user.login}
-            </a>
+            </a> */}
+            <Popover
+              position="top"
+              className="awesome"
+              trigger={issue.user.login}
+            >
+              <User username={issue.user.login} />
+            </Popover>
           </small>
         </div>
         <div class="card-action">

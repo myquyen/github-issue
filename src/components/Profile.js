@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import "./Profile.css";
 const API = "https://api.github.com/users";
 
 export default class App extends Component {
@@ -39,14 +40,13 @@ export default class App extends Component {
     this.fetchProfile(this.props.username);
   }
   render() {
-    console.log("USER NAME CLICKED", this.props.username);
     return (
       <div>
         <section id="card">
-          <SearchProfile fetchProfile={this.fetchProfile.bind(this)} />
+          {/* <SearchProfile fetchProfile={this.fetchProfile.bind(this)} /> */}
           <Profile data={this.state} />
         </section>
-        <span className="hesmaili">
+        {/* <span className="hesmaili">
           GitHub Card With ReactJs - Created By{" "}
           <a
             href="https://twitter.com/theham3d"
@@ -55,7 +55,7 @@ export default class App extends Component {
           >
             Hamed Esmaili
           </a>
-        </span>
+        </span> */}
       </div>
     );
   }

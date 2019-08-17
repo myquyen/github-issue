@@ -2,6 +2,10 @@ import React from "react";
 import M from "materialize-css/dist/js/materialize.min.js";
 import "./App.css";
 
+import Popover from "@terebentina/react-popover";
+
+import "@terebentina/react-popover/lib/styles.css";
+
 import User from "./components/Profile";
 import IssueCards from "./components/IssueCards";
 
@@ -79,6 +83,8 @@ class App extends React.Component {
       var instances = M.Modal.init(elems);
       var elems1 = document.querySelectorAll(".collapsible");
       var instances1 = M.Collapsible.init(elems1);
+      var elems2 = document.querySelectorAll(".tooltipped");
+      var instances2 = M.Tooltip.init(elems2);
     });
     this.fetchIssues(1);
   }
@@ -214,6 +220,7 @@ class App extends React.Component {
             </div>
           </div>
           <div class="row container">
+            {/* Collapsible =============================================================================== */}
             <ul class="collapsible">
               <li>
                 <div class="collapsible-header">
