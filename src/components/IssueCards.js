@@ -20,16 +20,20 @@ export default function(props) {
       <div class="card">
         <div class="card-content">
           <div className="title-container">
-            <i
-              class={`material-icons ${
-                issue.state === "open" ? "green-text" : "red-text"
-              }`}
-            >
-              error_outline
-            </i>
-            <p class="card-title">
-              <strong> {issue.title}</strong>
-              <small>
+            <div className="title-container-left">
+              <i
+                class={`material-icons ${
+                  issue.state === "open" ? "green-text" : "red-text"
+                }`}
+              >
+                error_outline
+              </i>
+              <p class="card-title">
+                <strong> {issue.title}</strong>
+              </p>
+            </div>
+            <div className="title-container-right">
+              <span style={{ marginRight: ".4rem" }}>by</span>
               <Popover
                 position="top"
                 className="awesome"
@@ -37,8 +41,7 @@ export default function(props) {
               >
                 <User username={issue.user.login} />
               </Popover>
-            </small>
-            </p>
+            </div>
           </div>
           {issue.labels.map(label => {
             return (
@@ -55,19 +58,14 @@ export default function(props) {
               </a>
             );
           })}
-          
         </div>
-        {/* <div class="card-action"> */}
-          {/* <a
-            class="modal-trigger"
-            href="#comments"
-            onClick={() => props.getComments(issue.comments_url)}
-          >
-            <i className="material-icons">comment</i>
-            {issue.comments}
-          </a> */}
-          <CollapsibleBody class="card-action" issue={issue} source={issue.body} getComments={props.getComments} />
-        {/* </div> */}
+
+        <CollapsibleBody
+          class="card-action"
+          issue={issue}
+          source={issue.body}
+          getComments={props.getComments}
+        />
       </div>
     </div>
   );
@@ -86,13 +84,11 @@ class CollapsibleBody extends React.Component {
         <li>
           <div class="collapsible-header">
             <div class="collapsible-header-left">
-              <i class="material-icons">description</i>
+              <i class="material-icons cyan-text text-darken-4">description</i>
               <span className="flow-text truncate">
-              
-              <small>
-                #{issue.number} opened {moment(issue.created_at).fromNow()}
-                
-              </small>
+                <small>
+                  #{issue.number} opened {moment(issue.created_at).fromNow()}
+                </small>
               </span>
             </div>
             <a
@@ -100,11 +96,9 @@ class CollapsibleBody extends React.Component {
               href="#comments"
               onClick={() => this.props.getComments(issue.comments_url)}
             >
-              <i className="material-icons">comment</i>
+              <i className="material-icons cyan-text">comment</i>
               {issue.comments}
             </a>
-
-            
           </div>
           <div class="collapsible-body">
             <span className="flow-text">
