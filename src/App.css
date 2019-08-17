@@ -92,4 +92,13 @@
 
 .collapsible {
   margin: 1.6rem 0 1rem 0;
+  box-shadow: none;
+}
+
+.collapsible-header-left {
+  display: flex;
+}
+
+.collapsible-header {
+  justify-content: space-between;
 }

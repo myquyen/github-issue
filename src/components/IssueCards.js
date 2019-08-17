@@ -55,19 +55,19 @@ export default function(props) {
               </a>
             );
           })}
-          <CollapsibleBody issue={issue} source={issue.body} />
+          
         </div>
-        <div class="card-action">
-          <a
+        {/* <div class="card-action"> */}
+          {/* <a
             class="modal-trigger"
             href="#comments"
             onClick={() => props.getComments(issue.comments_url)}
           >
             <i className="material-icons">comment</i>
             {issue.comments}
-          </a>
-          <a href="#">This is a link</a>
-        </div>
+          </a> */}
+          <CollapsibleBody class="card-action" issue={issue} source={issue.body} getComments={props.getComments} />
+        {/* </div> */}
       </div>
     </div>
   );
@@ -85,21 +85,26 @@ class CollapsibleBody extends React.Component {
       <ul class="collapsible">
         <li>
           <div class="collapsible-header">
-            <i class="material-icons">description</i>
-            <span className="flow-text truncate">
-            
-            <small>
-              #{issue.number} opened {moment(issue.created_at).fromNow()} by{" "}
-              <Popover
-                position="top"
-                className="awesome"
-                trigger={issue.user.login}
-              >
-                <User username={issue.user.login} />
-              </Popover>
-            </small>
+            <div class="collapsible-header-left">
+              <i class="material-icons">description</i>
+              <span className="flow-text truncate">
+              
+              <small>
+                #{issue.number} opened {moment(issue.created_at).fromNow()}
+                
+              </small>
+              </span>
+            </div>
+            <a
+              class="modal-trigger"
+              href="#comments"
+              onClick={() => this.props.getComments(issue.comments_url)}
+            >
+              <i className="material-icons">comment</i>
+              {issue.comments}
+            </a>
 
-            </span>
+            
           </div>
           <div class="collapsible-body">
             <span className="flow-text">
