@@ -1,6 +1,7 @@
 import React from "react";
 import M from "materialize-css/dist/js/materialize.min.js";
 import "./App.css";
+import GithubReaction from "./components/GithubReaction"
 
 // import "@terebentina/react-popover/lib/styles.css";
 
@@ -172,6 +173,7 @@ export default class App extends React.Component {
                             {comment.user.login}
                           </strong>
                           <ReactMarkdown source={comment.body} />
+                          <GithubReaction/>
                         </div>
                       </div>
                     </div>
