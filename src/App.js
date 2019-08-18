@@ -333,7 +333,7 @@ export default class App extends React.Component {
                 //   this.createIssue("Me testing", "Hello", "", 1, "")
                 // }
               >
-                New Issue
+                Create Issue
               </a>
             </div>
           </div>
