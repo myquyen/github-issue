@@ -35,7 +35,7 @@ The following **required** functionalities are completed (this is a sample):
 - [x] State of Issue (Open/Closed).
 - [x] The user should be able to see multiple pages of results, by clicking a pagination control.
 - [x] The user should be able to see the body of the issue rendered in markdown.
-- [ ] The user should be able to create a new issue via a modal for the repository, by clicking on a "new issue" button. Clicking on thi button will pop open a modal that asks for the requisite fields.
+- [ ] The user should be able to create a new issue via a modal for the repository, by clicking on a "new issue" button. Clicking on this button will pop open a modal that asks for the requisite fields.
 - [ ] If there is an error creating the issue (for example, the user not supplying all required parameters), there should be a nice error message to the user.
 
 The following **optional** features are implemented:
