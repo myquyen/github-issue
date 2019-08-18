@@ -53,6 +53,7 @@ export default class IssueCards extends React.Component {
   };
 
   componentDidMount = () => {};
+  
   render() {
     const issue = this.props.issue;
     return (
