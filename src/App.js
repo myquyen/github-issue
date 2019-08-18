@@ -55,10 +55,10 @@ export default class App extends React.Component {
     // var elems1 = document.querySelectorAll(".collapsible");
     // var instances = M.Collapsible.init(elems1);
     M.AutoInit();
-    this.fetchIssues(1);
+    this.fetchIssues();
   }
 
-  fetchIssues = async page => {
+  fetchIssues = async (page = 1) => {
     try {
       let repo = this.state.searchRepo;
       let state = "open";
@@ -70,7 +70,7 @@ export default class App extends React.Component {
         `https://api.github.com/search/issues?q=repo:${repo}+type:issues+state:${state}&page=${page}`
       );
       const data = await response.json();
-      // console.log("DATA", data);
+      console.log("DATA", data);
       this.setState({
         issues: data.items,
         filteredIssues: data.items,
@@ -86,43 +86,50 @@ export default class App extends React.Component {
   searchRepo = () => {
     let repoName = this.state.searchRepo;
     // console.log("REPOOOOOO", repo);
-    this.fetchIssues(repoName);
+    this.fetchIssues();
   };
 
-  createIssue = async (title, body, assignees, milestone, labels) => {
+  createIssue = async e => {
     const url = `https://api.github.com/repos/${this.state.searchRepo}/issues`;
-    // const input = {
-    //   title,
-    //   body,
-    //   assignees: ["myquyen"],
-    //   // milestone
-    //   labels: labels.split(", ")
-    // };
 
+    const title = this.titleInput.value;
+    const body = this.bodyInput.value;
+    const assignees = this.assigneesInput.value;
+    const milestone = this.milestoneInput.value;
+    const labels = this.labelsInput.value;
     const input = {
-      title: "Quyen a bug",
-      body: "I'm having a problem with this.",
-      assignees: ["octocat"],
-      milestone: 1,
-      labels: ["bug"]
+      title,
+      body,
+      assignees: assignees.split(", "),
+      milestone,
+      labels: labels.split(", ")
     };
-
-    const response = await fetch(url, {
-      method: "POST",
-      body: JSON.stringify(input),
-      headers: new Headers({
-        "Content-Type": "application/vnd.github.symmetra-preview+json",
-        Authorization: `Token ${this.state.token}`
-      })
-    });
-    console.log("RESPONSE", response);
+    if (title && body) {
+      const response = await fetch(url, {
+        method: "POST",
+        body: JSON.stringify(input),
+        headers: new Headers({
+          "Content-Type": "application/vnd.github.symmetra-preview+json",
+          Authorization: `Token ${this.state.token}`
+        })
+      });
+      if (response.ok) {
+        M.toast({
+          html: "Successfully create issue!",
+          classes: "green"
+        });
+        this.fetchIssues();
+      } else {
+        alert(`Unsuccessful response: ${response.statusText}`);
+      }
+      console.log("RESPONSE", response);
+    } else {
+      M.toast({
+        html: "You need to fill the required fields",
+        classes: "amber darken-1"
+      });
+    }
   };
-  // searchIssues = term => {
-  //   let filteredIssues = this.state.issues.filter(issue =>
-  //     issue.title.toLowerCase().includes(term.toLowerCase())
-  //   );
-  //   this.setState({ filteredIssues });
-  // };
 
   renderPagination() {
     let pages = [];
@@ -162,83 +169,106 @@ export default class App extends React.Component {
   render() {
     console.log("STATE", this.state);
     if (false) {
-      return (
-        <div>
-          <div>tessst</div>
-          <div>hello</div>
-          <div>hi</div>
-        </div>
-      );
+      return <div />;
     } else {
       return (
         <div>
           {/* MODAL =============================================================================================     */}
-          <div id="modal1" class="modal modal-fixed-footer">
-            <div class="modal-content">
+          <div id="new-issue" className="modal modal-fixed-footer">
+            <div className="modal-content">
               <h5>Create New Issue</h5>
-              <p>
-                <div class="row">
-                  <form class="col s12">
-                    <div class="row">
-                      <div class="input-field-modal col s12">
-                        <input
-                          id="title"
-                          type="text"
-                          class="validate"
-                          required
-                        />
-                        <label for="title">Title *</label>
-                      </div>
+              <div className="row">
+                <form className="col s12">
+                  <div className="row">
+                    <div className="input-field col s12">
+                      <input
+                        id="title"
+                        type="text"
+                        ref={e => (this.titleInput = e)}
+                        className="validate"
+                        required
+                      />
+                      <label for="title">Title *</label>
+                      <span
+                        class="helper-text"
+                        data-error="This must not be empty!"
+                      >
+                        This field is required
+                      </span>
                     </div>
-                    <div class="row">
-                      <div class="input-field-modal col s12">
-                        <input
-                          id="body"
-                          type="text"
-                          class="validate"
-                          required
-                        />
-                        <label for="body">Description *</label>
-                      </div>
+                  </div>
+                  <div className="row">
+                    <div className="input-field col s12">
+                      <input
+                        id="body"
+                        ref={e => (this.bodyInput = e)}
+                        type="text"
+                        className="validate"
+                        required
+                      />
+                      <label for="body">Description *</label>
+                      <span
+                        class="helper-text"
+                        data-error="This must not be empty!"
+                      >
+                        This field is required
+                      </span>
                     </div>
-                    <div class="row">
-                      <div class="input-field-modal col s12">
-                        <input id="assignee" type="text" class="validate" />
-                        <label for="assignee">Assignees</label>
-                      </div>
+                  </div>
+                  <div className="row">
+                    <div className="input-field col s12">
+                      <input
+                        id="assignee"
+                        type="text"
+                        className="validate"
+                        ref={e => (this.assigneesInput = e)}
+                      />
+                      <label for="assignee">Assignees</label>
                     </div>
-                    <div class="row">
-                      <div class="input-field-modal col s6">
-                        <input id="milestone" type="text" class="validate" />
-                        <label for="milestone">Milestone</label>
-                      </div>
-                      <div class="input-field-modal col s6">
-                        <input id="label" type="text" class="validate" />
-                        <label for="label">Labels</label>
-                      </div>
+                  </div>
+                  <div className="row">
+                    <div className="input-field col s6">
+                      <input
+                        id="milestone"
+                        type="number"
+                        className="validate"
+                        ref={e => (this.milestoneInput = e)}
+                      />
+                      <label for="milestone">Milestone</label>
                     </div>
-                  </form>
-                </div>
-              </p>
+                    <div className="input-field col s6">
+                      <input
+                        id="label"
+                        type="text"
+                        className="validate"
+                        ref={e => (this.labelsInput = e)}
+                      />
+                      <label for="label">Labels</label>
+                    </div>
+                  </div>
+                </form>
+              </div>
             </div>
-            <div class="modal-footer">
+            <div className="modal-footer">
               <a
                 href="#!"
-                class="modal-close waves-effect waves-green btn-flat"
+                onClick={this.createIssue}
+                className="modal-close waves-effect btn-flat teal lighten-1 white-text"
               >
-                Agree
+                Submit
               </a>
             </div>
           </div>
-          <div id="comments" class="modal bottom-sheet modal-fixed-footer">
-            <div class="modal-content">
+          {/* COMMENTS MODAL ========================================================================================= */}
+          <div id="comments" className="modal bottom-sheet modal-fixed-footer">
+            <div className="modal-content">
               <h4>Comments</h4>
               {this.state.comments &&
                 this.state.comments.map(comment => {
                   return (
-                    <div class="row">
-                      <div class="col s12 m12">
-                        <div class="card-panel">
+                    <div className="row">
+                      <div className="col s12 m12">
+                        <div className="card-panel">
                           <strong className="teal-text">
                             {comment.user.login}
                           </strong>
@@ -249,33 +279,36 @@ export default class App extends React.Component {
                   );
                 })}
             </div>
-            <div class="modal-footer">
-              <a href="#!" class="modal-close btn-flat">
+            <div className="modal-footer">
+              <a href="#!" className="modal-close btn-flat">
                 Close
               </a>
             </div>
           </div>
           {/* NAVBAR ========================================================================================== */}
           <nav className="cyan darken-4 ">
-            <div class=" cyan darken-4 nav-wraper container">
-              <a href="#" class="left brand-logo hide-on-small-only">
+            <div className=" cyan darken-4 nav-wraper container">
+              <a href="#" className="left brand-logo hide-on-small-only">
                 GEThub
               </a>
               <div>
-                <div class="row right col s6">
-                  <div class="input-field ">
-                    <i class="material-icons prefix">search</i>
+                <div className="row right col s6">
+                  <div className="input-field ">
+                    <i className="material-icons prefix">search</i>
                     <input
                       id="icon_prefix"
                       type="text"
-                      class="validate"
+                      className="validate"
                       placeholder="User/repo e.g. 'facebook/react'"
                       onChange={e =>
                         this.setState({ searchRepo: e.target.value })
                       }
                       onSubmit={() => this.searchRepo()}
                     />
-                    <a class="btn search-btn" onClick={() => this.searchRepo()}>
+                    <a
+                      className="btn search-btn"
+                      onClick={() => this.searchRepo()}
+                    >
                       Search
                     </a>
                   </div>
@@ -285,7 +318,7 @@ export default class App extends React.Component {
           </nav>
           {/* HEADER ========================================================================================== */}
 
-          <div class="card cyan lighten-5">
+          <div className="card cyan lighten-5">
             <div className="card-content container">
               <h5
                 className="blue-grey-text text-darken-3"
@@ -294,8 +327,8 @@ export default class App extends React.Component {
                 {this.state.searchRepo}
               </h5>
               <a
-                class="waves-effect waves-light btn modal-trigger"
-                href="#modal1"
+                className="waves-light btn modal-trigger"
+                href="#new-issue"
                 // onClick={() =>
                 //   this.createIssue("Me testing", "Hello", "", 1, "")
                 // }
@@ -303,28 +336,13 @@ export default class App extends React.Component {
                 Create Issue
               </a>
             </div>
-            {/* <div className="card-tabs container">
-              <ul className="tabs tabs-fixed-width cyan lighten-4 ">
-                <li className="tab">
-                  <a href="#test4">Test 1</a>
-                </li>
-                <li className="tab">
-                  <a className="active" href="#test5">
-                    Test 2
-                  </a>
-                </li>
-                <li className="tab">
-                  <a href="#test6">Test 3</a>
-                </li>
-              </ul>
-            </div> */}
           </div>
-          <div class="row container">
+          <div className="row container">
             {this.state.error ? (
-              <div class="row">
-                <div class="col s12 m12">
-                  <div class="card-panel teal">
-                    <span class="white-text">
+              <div className="row">
+                <div className="col s12 m12">
+                  <div className="card-panel teal">
+                    <span className="white-text">
                       {this.state.error[0].message}
                     </span>
                   </div>
@@ -341,15 +359,15 @@ export default class App extends React.Component {
               })
             )}
           </div>
-          <ul class="pagination container center-align">
+          <ul className="pagination container center-align">
             <li
-              class="waves-effect"
+              className="waves-effect"
               onClick={() => {
                 this.fetchIssues(1);
               }}
             >
               <a href="#!">
-                <i class="material-icons">first_page</i>
+                <i className="material-icons">first_page</i>
               </a>
             </li>
             <li className="waves-effect">
@@ -360,7 +378,7 @@ export default class App extends React.Component {
                     this.fetchIssues(this.state.page - 1);
                 }}
               >
-                <i class="material-icons">chevron_left</i>
+                <i className="material-icons">chevron_left</i>
               </a>
             </li>
             {this.renderPagination()}
@@ -372,17 +390,17 @@ export default class App extends React.Component {
                     this.fetchIssues(this.state.page + 1);
                 }}
               >
-                <i class="material-icons">chevron_right</i>
+                <i className="material-icons">chevron_right</i>
               </a>
             </li>
             <li
-              class="waves-effect"
+              className="waves-effect"
               onClick={() => {
                 this.fetchIssues(this.state.total_count);
               }}
             >
               <a href="#!">
-                <i class="material-icons">last_page</i>
+                <i className="material-icons">last_page</i>
               </a>
             </li>
           </ul>

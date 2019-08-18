@@ -27,6 +27,15 @@
   margin-top: 0;
 }
 
+#new-issue .input-field {
+  display: inline;
+}
+#new-issue .input-field :focus {
+  color: black !important;
+}
+.toast {
+  min-width: 400px;
+}
 .title-container {
   display: flex;
   justify-content: space-between;
@@ -95,6 +104,9 @@
   color: white;
 }
 
+#icon_prefix {
+  color: white !important;
+}
 /* input[type=text]:not(.browser-default) */
 
 .input-field {
