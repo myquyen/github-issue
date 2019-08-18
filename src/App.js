@@ -180,7 +180,7 @@ export default class App extends React.Component {
                 <div class="row">
                   <form class="col s12">
                     <div class="row">
-                      <div class="input-field col s12">
+                      <div class="input-field-modal col s12">
                         <input
                           id="title"
                           type="text"
@@ -191,7 +191,7 @@ export default class App extends React.Component {
                       </div>
                     </div>
                     <div class="row">
-                      <div class="input-field col s12">
+                      <div class="input-field-modal col s12">
                         <input
                           id="body"
                           type="text"
@@ -202,17 +202,17 @@ export default class App extends React.Component {
                       </div>
                     </div>
                     <div class="row">
-                      <div class="input-field col s12">
+                      <div class="input-field-modal col s12">
                         <input id="assignee" type="text" class="validate" />
                         <label for="assignee">Assignees</label>
                       </div>
                     </div>
                     <div class="row">
-                      <div class="input-field col s6">
+                      <div class="input-field-modal col s6">
                         <input id="milestone" type="text" class="validate" />
                         <label for="milestone">Milestone</label>
                       </div>
-                      <div class="input-field col s6">
+                      <div class="input-field-modal col s6">
                         <input id="label" type="text" class="validate" />
                         <label for="label">Labels</label>
                       </div>
@@ -300,7 +300,7 @@ export default class App extends React.Component {
                 //   this.createIssue("Me testing", "Hello", "", 1, "")
                 // }
               >
-                Modal
+                Create Issue
               </a>
             </div>
             {/* <div className="card-tabs container">
