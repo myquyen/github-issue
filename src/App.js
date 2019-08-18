@@ -162,6 +162,7 @@ export default class App extends React.Component {
 
   render() {
     console.log("STATE", this.state);
+    console.log("checkComment", this.state.issues)
     if (false) {
       return (
         <div>

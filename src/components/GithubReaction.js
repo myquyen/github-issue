@@ -7,24 +7,24 @@ export class GithubReaction extends React.Component {
   state = {
     counters: [{
       emoji: '👍',
-      by: 'case',
+      by: 'Mylen',
     }, {
       emoji: '👍',
-      by: 'roasbeef',
+      by: 'Shawn',
     },{
       emoji: '👎',
-      by: 'roasbeef',
+      by: 'VanMitG',
     },{
       emoji: '🎉',
-      by: 'roasbeef',
+      by: 'ThienHoang',
       },{
       emoji:'😕',
-      by: 'roasbeef',
+      by: 'Mai',
       },{
       emoji: '❤️',
-      by: 'joseph',
+      by: 'Amber',
     }],
-    user: 'case',
+    user: 'Mors',
     showSelector: false,
   }
 
