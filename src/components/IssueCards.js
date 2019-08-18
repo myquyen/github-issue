@@ -6,7 +6,6 @@ import Popover from "@terebentina/react-popover";
 import "@terebentina/react-popover/lib/styles.css";
 
 import User from "./Profile";
-import { async } from "q";
 
 const ReactMarkdown = require("react-markdown");
 
