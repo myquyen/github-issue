@@ -125,3 +125,7 @@
   background-color:white;
   color:#006064;
 }
+
+.flow-text p {
+  overflow: overlay;
+}
