@@ -17,10 +17,10 @@ export default class App extends Component {
       notFound: ""
     };
   }
-   async fetchProfile(username) {
+  fetchProfile(username) {
     let url = `${API}/${username}`;
-    await fetch(url) 
-      .then( res => res.json())
+    fetch(url)
+      .then(res => res.json())
       .then(data => {
         this.setState({
           username: data.login,

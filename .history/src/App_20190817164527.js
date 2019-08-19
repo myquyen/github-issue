@@ -16,7 +16,7 @@ export default class App extends React.Component {
     const existingToken = sessionStorage.getItem("token");
     const accessToken =
       window.location.search.split("=")[0] === "?access_token"
-        ? window.location.search.split("=")[1].slice(0,-6)
+        ? window.location.search.split("=")[1].slice(0, 6)
         : null;
 
     if (!accessToken && !existingToken) {
@@ -85,7 +85,7 @@ export default class App extends React.Component {
     // var elems1 = document.querySelectorAll(".collapsible");
     // var instances = M.Collapsible.init(elems1);
     M.AutoInit();
-    this.fetchIssues(1);
+    // this.fetchIssues(1);
   }
 
   searchRepo = () => {

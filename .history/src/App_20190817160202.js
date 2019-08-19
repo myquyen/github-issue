@@ -16,7 +16,7 @@ export default class App extends React.Component {
     const existingToken = sessionStorage.getItem("token");
     const accessToken =
       window.location.search.split("=")[0] === "?access_token"
-        ? window.location.search.split("=")[1].slice(0,-6)
+        ? window.location.search.split("=")[1]
         : null;
 
     if (!accessToken && !existingToken) {
@@ -165,8 +165,8 @@ export default class App extends React.Component {
           <div id="comments" class="modal bottom-sheet modal-fixed-footer">
             <div class="modal-content">
               <h4>Comments</h4>
-              {this.state.comments &&
-                this.state.comments.map(comment => {
+              {this.getComments.comments &&
+                this.getComments.comments.map(comment => {
                   return (
                     <div class="row">
                       <div class="col s12 m12">

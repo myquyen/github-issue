@@ -10,10 +10,10 @@ import User from "./Profile";
 const ReactMarkdown = require("react-markdown");
 export default function(props) {
   const issue = props.issue;
-  // const componentDidMount = () => {
-  //   var elems = document.querySelectorAll(".collapsible");
-  //   var instances = M.Collapsible.init(elems);
-  // };
+  const componentDidMount = () => {
+    var elems = document.querySelectorAll(".collapsible");
+    var instances = M.Collapsible.init(elems);
+  };
 
   return (
     <div class="col s12 m12 ">

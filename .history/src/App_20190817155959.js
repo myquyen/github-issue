@@ -16,7 +16,7 @@ export default class App extends React.Component {
     const existingToken = sessionStorage.getItem("token");
     const accessToken =
       window.location.search.split("=")[0] === "?access_token"
-        ? window.location.search.split("=")[1].slice(0,-6)
+        ? window.location.search.split("=")[1]
         : null;
 
     if (!accessToken && !existingToken) {
@@ -166,20 +166,18 @@ export default class App extends React.Component {
             <div class="modal-content">
               <h4>Comments</h4>
               {this.state.comments &&
-                this.state.comments.map(comment => {
-                  return (
-                    <div class="row">
-                      <div class="col s12 m12">
-                        <div class="card-panel">
-                          <strong className="teal-text">
-                            {comment.user.login}
-                          </strong>
-                          <ReactMarkdown source={comment.body} />
-                        </div>
+                this.state.comments.map((comment => {
+                  return [<div class="row">
+                    <div class="col s12 m12">
+                      <div class="card-panel">
+                        <strong className="teal-text">
+                          {comment.user.login}
+                        </strong>
+                        <ReactMarkdown source={comment.body} />
                       </div>
                     </div>
-                  );
-                })}
+                </div>];
+                }))}
             </div>
             <div class="modal-footer">
               <a href="#!" class="modal-close btn-flat">

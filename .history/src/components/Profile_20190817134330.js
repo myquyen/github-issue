@@ -17,10 +17,10 @@ export default class App extends Component {
       notFound: ""
     };
   }
-   async fetchProfile(username) {
+  fetchProfile(username) {
     let url = `${API}/${username}`;
-    await fetch(url) 
-      .then( res => res.json())
+    fetch(url)
+      .then(res => res.json())
       .then(data => {
         this.setState({
           username: data.login,
@@ -37,10 +37,9 @@ export default class App extends Component {
       .catch(error => console.log("Oops! . There Is A Problem"));
   }
   componentDidMount() {
-    // this.fetchProfile(this.props.username);
+    this.fetchProfile(this.props.username);
   }
   render() {
-    console.log('checkComments')
     return (
       <div>
         <section id="card">

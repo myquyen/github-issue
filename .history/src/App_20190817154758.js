@@ -16,7 +16,7 @@ export default class App extends React.Component {
     const existingToken = sessionStorage.getItem("token");
     const accessToken =
       window.location.search.split("=")[0] === "?access_token"
-        ? window.location.search.split("=")[1].slice(0,-6)
+        ? window.location.search.split("=")[1]
         : null;
 
     if (!accessToken && !existingToken) {
@@ -36,8 +36,8 @@ export default class App extends React.Component {
         filteredIssues: [],
         page: 1,
         searchRepo: "facebook/react",
-        error: null,
-        comments: [],
+
+        error: null
       };
     }
 
@@ -48,8 +48,7 @@ export default class App extends React.Component {
         filteredIssues: [],
         page: 1,
         searchRepo: "facebook/react",
-        error: null,
-        comments: [],
+        error: null
       };
     }
   }
@@ -128,14 +127,13 @@ export default class App extends React.Component {
   renderComments = async url => {
     const response = await fetch(url);
     const data = await response.json();
-    console.log("PLayed: ?", data);
+    console.log("PLayed");
     this.setState({ comments: data });
-    console.log("PLayed", this.state.comments);
+    console.log("PLayed", comments);
   };
 
   render() {
     // console.log("STATE", this.state);
-    console.log("PLayed", this.state.comments);
     if (false) {
       return (
         <div>

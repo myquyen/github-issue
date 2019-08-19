@@ -85,7 +85,7 @@ export default class App extends React.Component {
     // var elems1 = document.querySelectorAll(".collapsible");
     // var instances = M.Collapsible.init(elems1);
     M.AutoInit();
-    this.fetchIssues(1);
+    // this.fetchIssues(1);
   }
 
   searchRepo = () => {
