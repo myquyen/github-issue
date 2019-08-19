@@ -10,8 +10,8 @@
   align-items: center;
 }
 .github--profile img {
-  width: 6.25rem;
-  height: 6.25rem;
+  width: 4rem;
+  height: 4rem;
   border-radius: 50%;
   display: block;
   box-shadow: 0 0 0.625rem rgba(0, 0, 0, 0.5);
@@ -23,20 +23,34 @@
   font-weight: bold;
 }
 
+.popover.popover--active .popover__content {
+  min-width: 21em;
+}
+
+.popover.popover--top .popover__content {
+  bottom: -7rem !important;
+  left: 20% !important;
+}
+
+.popover .popover__content {  
+  transition: all 0.1s ease 0ms;
+}
+
 h2 {
   margin: 0;
 }
+
 h3 {
-  font-size: 1.1885rem;
+  font-size: 1rem;
   color: white;
-  font-weight: bold;
+  /* font-weight: bol; */
   margin: 0;
 }
 
 .github--profile__state {
   background: teal;
   text-align: center;
-  padding: 1rem 0.9375rem;
+  padding: .2rem;
   border-radius: 0 0 0.3125rem 0.3125rem;
 }
 
@@ -44,12 +58,12 @@ h3 {
   color: white;
 }
 .github--profile ul {
-  direction: ltr;
+  display: flex;
+  justify-content: space-around;
 }
 .github--profile li {
   list-style: none;
   display: inline-block;
-  margin-right: 1rem;
 }
 .github--profile:last-child {
   margin-right: 0;

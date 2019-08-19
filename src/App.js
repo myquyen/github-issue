@@ -337,7 +337,7 @@ export default class App extends React.Component {
               </a>
             </div>
           </div>
-          <div className="row container">
+          <div className="row container row-container">
             {this.state.error ? (
               <div className="row">
                 <div className="col s12 m12">

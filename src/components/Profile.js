@@ -33,11 +33,11 @@ export default function Profile(props) {
           <h3>{data.location || "I Live In My Mind"}</h3>
         </div>
         <div className="github--profile__state">
-          <ul>
+          <ul style={{ height: "2.5rem", lineHeight: "1.5rem" }}>
             <li>
               <a href={followers} target="_blank" title="Number Of Followers">
-                <i>{data.followers}</i>
-                <span>Followers</span>
+                <i style={{ fontSize: "1rem", margin:"0" }}>{data.followers}</i>
+                <span style={{ fontSize: ".8rem" }}>Followers</span>
               </a>
             </li>
             <li>
@@ -46,14 +46,14 @@ export default function Profile(props) {
                 target="_blank"
                 title="Number Of Repositoriy"
               >
-                <i>{data.repos}</i>
-                <span>Repositoriy</span>
+                <i style={{ fontSize: "1rem", margin:"0" }}>{data.repos}</i>
+                <span style={{ fontSize: ".8rem" }}>Repositories</span>
               </a>
             </li>
             <li>
               <a href={following} target="_blank" title="Number Of Following">
-                <i>{data.following}</i>
-                <span>Following</span>
+                <i style={{ fontSize: "1rem", margin:"0" }}>{data.following}</i>
+                <span style={{ fontSize: ".8rem" }}>Following</span>
               </a>
             </li>
           </ul>

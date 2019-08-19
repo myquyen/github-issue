@@ -31,6 +31,10 @@
   margin-top: 0;
 }
 
+.row-container {
+  margin-top: 5rem;
+}
+
 #new-issue .input-field {
   display: inline;
 }

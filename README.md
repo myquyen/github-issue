@@ -1,4 +1,4 @@
-# CoderSchool FTW - _ Github Issues _
+# CoderSchool FTW -  GEThub
 
 Created with love by: `Your Name Here`
 
@@ -6,15 +6,6 @@ View online at: `Your URL here`
 
 One or two sentence summary of your project.
 
-## Video Walkthrough
-
-Here's a walkthrough of implemented user stories.
-
-To create a GIF, use [LiceCap](http://www.cockos.com/licecap/), [RecordIt](http://www.recordit.co), or [Loom](http://www.useloom.com), and link the image here in the markdown.
-
-```
-<img src='http://i.imgur.com/link/to/your/gif/file.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
-```
 
 ## User Stories
 
@@ -23,7 +14,7 @@ The following **required** functionalities are completed (this is a sample):
 - [x] The user can enter a repository in a search bar, click "search", and see the associated issues. The repository should be of the format owner/repo-name, e.g. facebook/react.
 - [x] If the repository does not exist, the user should see a proper error message.
 
-* The user should be able to see the following information for each issue:
+The user should be able to see the following information for each issue:
 
 - [x] Issue Title
 - [x] Number of the issue
@@ -49,19 +40,16 @@ The following **optional** features are implemented:
 
 Instead of using Modal to show issue, use React Router (link) to navigate to different URL issues/:issueId to display the full issue. Have the Back button to go back to the previous page (from the individual issue page).
 
-The following **additional** features are implemented:
-
-- [ ] Think of something cool here, people. This is your last React group project!
 
 ## Time Spent and Lessons Learned
 
-Time spent: **X** hours spent in total.
+Time spent: **20** hours each by 4 team members.
 
-Describe any challenges encountered while building the app.
+
 
 ## License
 
-    Copyright [yyyy] [name of copyright owner]
+    Copyright 2019 - FTW El Captain
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
