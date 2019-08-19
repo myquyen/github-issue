@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import "./Profile.css";
 const API = "https://api.github.com/users";
 
-export default class App extends Component {
+class User extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -39,24 +39,18 @@ export default class App extends Component {
   componentDidMount() {
     // this.fetchProfile(this.props.username);
   }
+
   render() {
+<<<<<<< HEAD
     console.log('checkComments')
+=======
+    console.log("USER", this.props.data);
+>>>>>>> 89241b5ce4521617fe35d279d2507f3b07d911b9
     return (
       <div>
         <section id="card">
-          {/* <SearchProfile fetchProfile={this.fetchProfile.bind(this)} /> */}
-          <Profile data={this.state} />
+          <Profile data={this.props.data} />
         </section>
-        {/* <span className="hesmaili">
-          GitHub Card With ReactJs - Created By{" "}
-          <a
-            href="https://twitter.com/theham3d"
-            target="_blank"
-            title="Hamed Esmaili"
-          >
-            Hamed Esmaili
-          </a>
-        </span> */}
       </div>
     );
   }
@@ -87,66 +81,62 @@ class SearchProfile extends React.Component {
   }
 }
 
-class Profile extends React.Component {
-  render() {
-    let data = this.props.data;
-    let followers = `${data.homeUrl}/followers`;
-    let repositories = `${data.homeUrl}?tab=repositories`;
-    let following = `${data.homeUrl}/following`;
-    if (data.notFound === "Not Found")
-      return (
-        <div className="notfound">
-          <h2>Oops !!!</h2>
-          <p>
-            The Component Couldn't Find The You Were Looking For . Try Again{" "}
-          </p>
-        </div>
-      );
-    else
-      return (
-        <section className="github--profile">
-          <div className="github--profile__info">
-            <a
-              href={data.homeUrl}
-              target="_blank"
-              title={data.name || data.username}
-            >
-              <img src={data.avatar} alt={data.username} />
+export default function Profile(props) {
+  let data = props.data;
+  let followers = `${data.homeUrl}/followers`;
+  let repositories = `${data.homeUrl}?tab=repositories`;
+  let following = `${data.homeUrl}/following`;
+  if (data.notFound === "Not Found")
+    return (
+      <div className="notfound">
+        <h2>Oops !!!</h2>
+        <p>The Component Couldn't Find The You Were Looking For . Try Again </p>
+      </div>
+    );
+  else
+    return (
+      <section className="github--profile">
+        <div className="github--profile__info">
+          <a
+            href={data.homeUrl}
+            target="_blank"
+            title={data.name || data.username}
+          >
+            <img src={data.avatar} alt={data.username} />
+          </a>
+          <h2>
+            <a href={data.homeUrl} title={data.username} target="_blank">
+              {data.name || data.username}
             </a>
-            <h2>
-              <a href={data.homeUrl} title={data.username} target="_blank">
-                {data.name || data.username}
+          </h2>
+          <h3>{data.location || "I Live In My Mind"}</h3>
+        </div>
+        <div className="github--profile__state">
+          <ul>
+            <li>
+              <a href={followers} target="_blank" title="Number Of Followers">
+                <i>{data.followers}</i>
+                <span>Followers</span>
               </a>
-            </h2>
-            <h3>{data.location || "I Live In My Mind"}</h3>
-          </div>
-          <div className="github--profile__state">
-            <ul>
-              <li>
-                <a href={followers} target="_blank" title="Number Of Followers">
-                  <i>{data.followers}</i>
-                  <span>Followers</span>
-                </a>
-              </li>
-              <li>
-                <a
-                  href={repositories}
-                  target="_blank"
-                  title="Number Of Repositoriy"
-                >
-                  <i>{data.repos}</i>
-                  <span>Repositoriy</span>
-                </a>
-              </li>
-              <li>
-                <a href={following} target="_blank" title="Number Of Following">
-                  <i>{data.following}</i>
-                  <span>Following</span>
-                </a>
-              </li>
-            </ul>
-          </div>
-        </section>
-      );
-  }
+            </li>
+            <li>
+              <a
+                href={repositories}
+                target="_blank"
+                title="Number Of Repositoriy"
+              >
+                <i>{data.repos}</i>
+                <span>Repositoriy</span>
+              </a>
+            </li>
+            <li>
+              <a href={following} target="_blank" title="Number Of Following">
+                <i>{data.following}</i>
+                <span>Following</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </section>
+    );
 }

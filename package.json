@@ -10,6 +10,7 @@
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
     "react-markdown": "^4.1.0",
+    "react-reactions": "github:randomdipesh/react-reactions",
     "react-scripts": "3.1.1",
     "request": "^2.88.0"
   },
